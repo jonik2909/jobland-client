@@ -4,7 +4,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export default function Navbar() {
-  const authMember = false;
+  const authMember = true;
 
   return (
     <div className="navbar">
@@ -40,10 +40,7 @@ export default function Navbar() {
             </Badge>
 
             <Box className="login-user">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr3jhpAFYpzxx39DRuXIYxNPXc0zI5F6IiMQ&s"
-                alt=""
-              />
+              <img src="./image/default-user.svg" alt="" />
               <span>Justin</span>
               <KeyboardArrowDownIcon />
             </Box>
