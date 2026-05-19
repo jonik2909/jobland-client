@@ -4,9 +4,9 @@ import JobsPage from "./screens/jobsPage";
 import CompaniesPage from "./screens/companiesPage";
 import CandidatesPage from "./screens/candidatesPage";
 import JoinPage from "./screens/joinPage";
-import "./styles/index.scss";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import "./styles/index.scss";
 
 function App() {
   return (
