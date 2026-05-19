@@ -468,4 +468,81 @@
       }
     }
   }
+
+  /** FEATURED JOBS **/
+  .featured-jobs {
+    position: relative;
+    padding: 100px 0px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    background-color: #ecedf2;
+
+    .container {
+      flex-direction: column;
+
+      .info-sec {
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .left {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            color: #202124;
+            font-family: $font;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          p {
+            margin-top: 20px;
+            color: #696969;
+            font-family: $font;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+
+        .right {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          a {
+            color: #1967d2;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 24px;
+          }
+
+          svg {
+            margin-left: 8px;
+            width: 12px;
+            height: 12px;
+            color: #1967d2;
+          }
+        }
+      }
+
+      .wrapper {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+    }
+  }
 }

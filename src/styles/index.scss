@@ -2,6 +2,7 @@
 @use "./variables.scss" as *;
 @use "../font/stylesheet.css";
 @use "./home.scss";
+@use "./general.scss";
 
 .container {
   display: flex;
