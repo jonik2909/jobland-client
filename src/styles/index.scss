@@ -1,1 +1,120 @@
+@use "./reset.scss" as *;
 @use "./variables.scss" as *;
+
+.container {
+  display: flex;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  width: 100%;
+
+  .container {
+    padding: 30px 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .router-section {
+      width: 804px;
+
+      .router-main {
+        display: flex;
+        flex-direction: row;
+
+        .router {
+          margin-right: 40px;
+
+          a {
+            color: rgba(32, 33, 36, 1);
+
+            font-family: "ABeeZee";
+            font-style: Regular;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 18px;
+            letter-spacing: 0%;
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    .login-user-box {
+      width: 276px;
+      height: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+
+      .login-user {
+        margin-left: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50px;
+        }
+
+        span {
+          margin-left: 10px;
+          margin-right: 10px;
+          color: var(--Color-Two, rgba(32, 33, 36, 1));
+
+          font-family: "ABeeZee";
+          font-style: Regular;
+          font-size: 15px;
+          font-weight: 400;
+          line-height: 18px;
+          letter-spacing: 0%;
+          text-align: left;
+        }
+      }
+    }
+
+    .login-section {
+      width: 276px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .reg-btn {
+        width: 106px;
+        height: 50px;
+        border-radius: 8px;
+        background: #eff4fc;
+
+        color: var(--Color-One, rgba(25, 103, 210, 1));
+
+        font-family: "ABeeZee";
+        font-style: Regular;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19px;
+        letter-spacing: 0%;
+      }
+
+      .login-btn {
+        width: 140px;
+        height: 50px;
+        border-radius: 8px;
+        background: var(--Color-One, rgba(25, 103, 210, 1));
+
+        color: var(--Color-White, rgba(255, 255, 255, 1));
+
+        font-family: "ABeeZee";
+        font-style: Regular;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0%;
+      }
+    }
+  }
+}
