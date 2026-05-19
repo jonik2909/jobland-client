@@ -5,6 +5,7 @@
   width: 100%;
   height: auto;
 
+  /* HOME HEADER */
   .home-header {
     position: relative;
     width: 100%;
@@ -364,6 +365,104 @@
               background: #f4c1be;
               box-shadow: 0px 40px 30px 0px rgba(25, 25, 46, 0.04);
             }
+          }
+        }
+      }
+    }
+  }
+
+  /* JOB CATEGORY */
+  .job-category {
+    position: relative;
+    padding: 100px 0px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+
+    .container {
+      flex-direction: column;
+      align-items: center;
+
+      .title {
+        color: #202124;
+        font-family: $font;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      .desc {
+        margin-top: 20px;
+        color: #696969;
+        font-family: $font;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      .wrapper {
+        margin-top: 25px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
+
+        .category-card {
+          width: 410px;
+          height: 230px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border-radius: 8px;
+          border: 1px solid #ecedf2;
+          background: #fff;
+          transition: transform 0.3s;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+          }
+
+          div {
+            margin-bottom: 24px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: #d4f4f8;
+
+            img {
+              width: 35px;
+              height: 35px;
+            }
+          }
+
+          span {
+            color: #202124;
+            font-family: $font;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+          }
+
+          p {
+            margin-top: 3px;
+            color: #696969;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
           }
         }
       }
