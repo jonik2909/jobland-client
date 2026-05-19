@@ -1,10 +1,21 @@
-import { Badge, Box, Container, Stack } from "@mui/material";
+import { Badge, Box, Container, Menu, MenuItem, Stack } from "@mui/material";
 import { NavLink } from "react-router";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useState } from "react";
 
 export default function Navbar() {
   const authMember = true;
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div className="navbar">
@@ -39,11 +50,26 @@ export default function Navbar() {
               <NotificationsNoneIcon color="action" />
             </Badge>
 
-            <Box className="login-user">
+            <Box className="login-user" onClick={handleClick}>
               <img src="./image/default-user.svg" alt="" />
               <span>Justin</span>
               <KeyboardArrowDownIcon />
             </Box>
+
+            <Menu
+              id={"menu-id"}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              slotProps={{
+                list: {
+                  "aria-labelledby": "menu-id",
+                },
+              }}
+            >
+              <MenuItem onClick={handleClose}>My Page</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
           </Stack>
         ) : (
           <Stack className="login-section">
