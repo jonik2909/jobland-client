@@ -6,6 +6,7 @@ import CandidatesPage from "./screens/candidatesPage";
 import JoinPage from "./screens/joinPage";
 import "./styles/index.scss";
 import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="candidates" element={<CandidatesPage />} />
         <Route path="join" element={<JoinPage />} />
       </Routes>
+      <Footer />
     </>
   );
 }
