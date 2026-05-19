@@ -1,18 +1,33 @@
 import { Box, Button, Container, Stack } from "@mui/material";
+import { NavLink, Route, Routes } from "react-router";
 
 function App() {
   return (
     <Container>
-      <h1>REACT APPLICATION</h1>
-      <Stack direction="row" spacing={2}>
-        <Button variant="text">Text</Button>
-        <Button variant="contained">Contained</Button>
-        <Button variant="outlined">Outlined</Button>
-      </Stack>
-
-      <Box component="section" sx={{ p: 2, mt: 5, border: "1px dashed grey" }}>
-        This Box renders as an HTML section element.
-      </Box>
+      <div>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "text-red-500" : "text-black"
+          }
+        >
+          Home
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          to="/about"
+          className={({ isActive }) =>
+            isActive ? "text-red-500" : "text-black"
+          }
+        >
+          About
+        </NavLink>
+      </div>
+      <Routes>
+        <Route index element={<div>Home Page</div>} />
+        <Route path="about" element={<div>About Page</div>} />
+      </Routes>
     </Container>
   );
 }
