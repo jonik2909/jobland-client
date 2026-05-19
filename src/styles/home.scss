@@ -545,4 +545,216 @@
       }
     }
   }
+
+  /* ADVERTISEMENTS */
+  .advertisements {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #302ea7;
+    background-image: url("/image/adv.png");
+    background-size: cover;
+
+    span {
+      color: #fff;
+      font-family: $font;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    p {
+      margin: 20px 0px 40px;
+      color: #fff;
+      font-family: $font;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    button {
+      width: 200px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      background: #fff;
+      color: #1967d2;
+      font-family: $font;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+
+  /* TOP COMPANIES */
+  .top-companies {
+    position: relative;
+    padding: 130px 0px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .container {
+      flex-direction: column;
+
+      .info-sec {
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .left {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            color: #202124;
+            font-family: $font;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          p {
+            margin-top: 20px;
+            color: #696969;
+            font-family: $font;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+
+        .right {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          a {
+            color: #1967d2;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 24px;
+          }
+
+          svg {
+            margin-left: 8px;
+            width: 12px;
+            height: 12px;
+            color: #1967d2;
+          }
+        }
+      }
+
+      .wrapper {
+        display: flex;
+        width: 100%;
+
+        .swiper-wrapper {
+          width: 100%;
+          height: 400px;
+          display: flex;
+          flex-direction: row;
+
+          .company-slide {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            margin: 10px 0 0 10px;
+
+            .home-company-card {
+              width: 300px;
+              height: 300px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              border-radius: 8px;
+              border: 1px solid #ecedf2;
+              background: #fff;
+              transition: transform 0.3s;
+              cursor: pointer;
+
+              &:hover {
+                opacity: 1;
+                transform: scale(1.05);
+                box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+              }
+
+              .logo {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+              }
+
+              strong {
+                margin-top: 15px;
+                color: #202124;
+                font-family: $font;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+              }
+
+              div {
+                margin: 10px 0px 20px;
+                display: flex;
+                flex-direction: row;
+
+                img {
+                  width: 13px;
+                  height: 13px;
+                }
+
+                span {
+                  margin-left: 10px;
+                  color: #696969;
+                  font-family: $font;
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: normal;
+                }
+              }
+
+              button {
+                width: 240px;
+                height: 50px;
+                border-radius: 8px;
+
+                font-family: $font;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                background: #f1f5fd;
+                color: #1967d2;
+
+                &:hover {
+                  background: #1967d2;
+                  color: #fff;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
