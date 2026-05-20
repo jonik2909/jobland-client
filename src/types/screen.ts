@@ -1,0 +1,7 @@
+/** HOME PAGE **/
+/** JOB PAGE **/
+/** COMPANY PAGE **/
+/** CANDIDANT PAGE **/
+/** MY PAGE **/
+/** COMPANY DASHBOARD **/
+/** ADMIN DASHBOARD **/

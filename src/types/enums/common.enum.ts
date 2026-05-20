@@ -1,0 +1,25 @@
+export enum BackgroundType {
+  EDUCATION = "EDUCATION",
+  EXPERIENCE = "EXPERIENCE",
+  AWARD = "AWARD",
+}
+
+export enum CategoryType {
+  WEB_DEVELOPMENT = "WEB_DEVELOPMENT",
+  MOBILE_DEVELOPMENT = "MOBILE_DEVELOPMENT",
+  UI_UX_DESIGNER = "UI_UX_DESIGNER",
+  DATA_SCENTIST = "DATA_SCENTIST",
+  DEVOPS = "DEVOPS",
+  CYBERSECURITY = "CYBERSECURITY",
+}
+
+export enum Country {
+  UZBEKISTAN = "UZBEKISTAN",
+  KOREA = "KOREA",
+  USA = "USA",
+}
+
+export enum ViewGroup {
+  MEMBER = "MEMBER",
+  JOB = "JOB",
+}
