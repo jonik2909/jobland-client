@@ -4,14 +4,18 @@ import App from "./App.tsx";
 import { ThemeProvider } from "@mui/material";
 import theme from "./MaterialTheme/index.ts";
 import { BrowserRouter } from "react-router";
+import { Provider } from "react-redux";
+import { store } from "./store.ts";
 
 // GLOBAL INTEGRATION
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
   </StrictMode>,
 );
