@@ -1,1 +1,15 @@
 export const serverApi: string = `${import.meta.env.VITE_API_URL}/api`;
+
+export function formatEnum(str?: string): string {
+  if (!str) return "";
+  return str
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+export function getImageUrl(img: string): string {
+  return img
+    ? `${import.meta.env.VITE_API_URL}/${img}`
+    : "/icons/default-user.svg";
+}
