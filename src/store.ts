@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import homePageReducer from "./screens/homePage/state";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    homePage: homePageReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
