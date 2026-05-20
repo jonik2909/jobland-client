@@ -3,10 +3,14 @@ import { Stack, Box, Container } from "@mui/material";
 import { Link } from "react-router";
 import { Autoplay, Pagination } from "swiper/modules";
 import { SwiperSlide, Swiper } from "swiper/react";
-
-const topCompanies = [1, 2, 3, 4, 5, 6, 7];
+import { useAppSelector } from "../../hooks";
+import { selectTopCompanies } from "./state";
+import type { Member } from "../../types/member";
+import { getImageUrl } from "../../lib/config";
 
 export default function TopCompanies() {
+  const topCompanies = useAppSelector(selectTopCompanies);
+
   return (
     <Stack className="top-companies">
       <Container className="container">
@@ -33,23 +37,23 @@ export default function TopCompanies() {
               delay: 2000,
             }}
           >
-            {topCompanies.map(() => (
+            {topCompanies.map((company: Member) => (
               <SwiperSlide className={"company-slide"} key={"index"}>
-                <Link to={`/companies/companyId`}>
+                <Link to={`/companies/${company.id}`}>
                   <Box className="home-company-card">
                     <img
-                      src={"/icons/default-user.svg"}
+                      src={getImageUrl(company.memberImage)}
                       alt=""
                       className="logo"
                     />
-                    <strong>Company Name </strong>
+                    <strong>{company.memberNick}</strong>
 
                     <div>
                       <img src="/icons/location.svg" alt="" />
-                      <span>London</span>
+                      <span>{company.memberCity || "-"}</span>
                     </div>
 
-                    <button>20 Open Position</button>
+                    <button>{company.activeJobs} Open Position</button>
                   </Box>
                 </Link>
               </SwiperSlide>

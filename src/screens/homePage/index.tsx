@@ -5,9 +5,11 @@ import TopCompanies from "./TopCompanies";
 import HomeHeader from "../../components/headers/HomeHeader";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks";
-import { setFeaturedJobs } from "./state";
+import { setFeaturedJobs, setTopCompanies } from "./state";
 import jobService from "../../services/JobService";
 import { JobSort } from "../../types/enums/job.enum";
+import memberService from "../../services/MemberService";
+import { MemberFeatured, MemberType } from "../../types/enums/member.enum";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +25,18 @@ const HomePage = () => {
       .then((data) => {
         // (2) REDUX STORE SLICE
         dispatch(setFeaturedJobs(data.list));
+      })
+      .catch((err) => console.log(err));
+
+    memberService
+      .getMembers({
+        page: 1,
+        limit: 8,
+        memberType: MemberType.COMPANY,
+        memberFeatured: MemberFeatured.YES,
+      })
+      .then((data) => {
+        dispatch(setTopCompanies(data.list));
       })
       .catch((err) => console.log(err));
   }, []);

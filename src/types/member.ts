@@ -1,6 +1,11 @@
 import type { Background } from "./background";
 import type { CategoryType, Country } from "./enums/common.enum";
-import { MemberFeatured, MemberStatus, MemberType } from "./enums/member.enum";
+import {
+  MemberFeatured,
+  MemberSort,
+  MemberStatus,
+  MemberType,
+} from "./enums/member.enum";
 
 export interface Member {
   id: string;
@@ -27,4 +32,14 @@ export interface Member {
 
   activeJobs: number;
   membeBackgrounds?: Background[];
+}
+
+export interface MembersInquiry {
+  page: number;
+  limit: number;
+  sort?: MemberSort;
+  memberType?: MemberType;
+  memberCategory?: CategoryType;
+  memberFeatured?: MemberFeatured;
+  search?: string;
 }
