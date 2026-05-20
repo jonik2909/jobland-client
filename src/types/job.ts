@@ -1,6 +1,6 @@
 import type { Member } from "./member";
 import type { Application } from "./application";
-import type { JobLevel, JobStatus, JobType } from "./enums/job.enum";
+import type { JobLevel, JobSort, JobStatus, JobType } from "./enums/job.enum";
 import type { CategoryType, Country } from "./enums/common.enum";
 
 export interface Job {
@@ -27,4 +27,16 @@ export interface Job {
   company?: Member;
   appliedCount?: number;
   meApplied?: Application;
+}
+
+export interface JobsInquiry {
+  page: number;
+  limit: number;
+  sort?: JobSort;
+  companyId?: string;
+  jobType?: JobType;
+  jobLevel?: JobLevel;
+  jobCountry?: Country;
+  jobCategory?: CategoryType;
+  search?: string;
 }

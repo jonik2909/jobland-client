@@ -4,8 +4,7 @@ import { Link } from "react-router";
 import JobCard from "../../components/card/JobCard";
 import { selectFeaturedJobs } from "./state";
 import { useAppSelector } from "../../hooks";
-
-const popularJobs = [1, 2, 3, 4];
+import type { Job } from "../../types/job";
 
 export default function FeaturedJobs() {
   // (3) REDUX STORE SELECT
@@ -29,8 +28,8 @@ export default function FeaturedJobs() {
           </Box>
         </Stack>
         <Stack className="wrapper">
-          {popularJobs.map(() => (
-            <JobCard width="634px" />
+          {featuredJobs.map((job: Job) => (
+            <JobCard width="634px" job={job} />
           ))}
         </Stack>
       </Container>
