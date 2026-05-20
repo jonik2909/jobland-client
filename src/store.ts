@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { createLogger } from "redux-logger";
 import homePageReducer from "./screens/homePage/state";
+
+const logger = createLogger();
 
 export const store = configureStore({
   reducer: {
     homePage: homePageReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

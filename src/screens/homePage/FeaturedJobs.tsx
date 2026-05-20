@@ -2,10 +2,17 @@ import { Stack, Box, Container } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Link } from "react-router";
 import JobCard from "../../components/card/JobCard";
+import { selectFeaturedJobs } from "./state";
+import { useAppSelector } from "../../hooks";
 
 const popularJobs = [1, 2, 3, 4];
 
 export default function FeaturedJobs() {
+  // (3) REDUX STORE SELECT
+  const featuredJobs = useAppSelector(selectFeaturedJobs);
+
+  console.log("featuredJobs:", featuredJobs);
+
   return (
     <Stack className="featured-jobs">
       <Container className="container">
