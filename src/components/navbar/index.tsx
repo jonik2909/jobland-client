@@ -22,7 +22,9 @@ export default function Navbar() {
       <Container className="container">
         {/* LOGO SECTION */}
         <Stack className="logo-section">
-          <img src="/logo.webp" alt="" />
+          <NavLink to="/">
+            <img src="/logo.webp" alt="" />
+          </NavLink>
         </Stack>
 
         {/* ROUTER SECTION */}

@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router";
+import { Routes, Route } from "react-router";
 import JobList from "./JobList";
 import JobDetail from "./JobDetail";
 
-const JobsPage = () => {
+export default function JobPage() {
   return (
     <div className="job-page">
       <Routes>
@@ -11,6 +11,4 @@ const JobsPage = () => {
       </Routes>
     </div>
   );
-};
-
-export default JobsPage;
+}

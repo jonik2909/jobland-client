@@ -1,21 +1,21 @@
 import {
+  Stack,
   Box,
-  Container,
   Menu,
   MenuItem,
   Pagination,
-  Stack,
+  Container,
 } from "@mui/material";
-import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import OtherHeader from "../../components/headers/OtherHeader";
-import Filter from "./Filter";
-import JobCard from "../../components/card/JobCard";
 import { useState } from "react";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import Filter from "./Filter";
+import CandidantCard from "../../components/card/CandidantCard";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-const jobs = [1, 2, 3, 4, 5, 6];
+const candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const JobList = () => {
+export default function CandidantList() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const sortingClickHandler = (e: any) => {
@@ -23,18 +23,14 @@ const JobList = () => {
   };
 
   return (
-    <div className="job-list">
+    <div className="candidate-list">
       <OtherHeader />
-
       <Container className="container">
-        {/* Filter (LEFT) */}
         <Filter />
-
-        {/* Result (RIGHT) */}
         <Stack className="result-box">
           <Stack className="top">
             <span className="result-count">
-              Showing <b>0 Jobs</b> of <b>1</b> page
+              Showing <b>9 Candidates</b> of <b>9</b> total
             </span>
             <Box className="result-filter">
               <div className="sort-box">
@@ -48,15 +44,14 @@ const JobList = () => {
                   sx={{ paddingTop: "5px" }}
                   slotProps={{
                     list: {
-                      "aria-labelledby": "basic-button",
                       sx: { width: anchorEl && anchorEl.offsetWidth },
                     },
                   }}
                 >
-                  <MenuItem id={"new"} disableRipple>
+                  <MenuItem onClick={() => setAnchorEl(null)} disableRipple>
                     New
                   </MenuItem>
-                  <MenuItem id={"views"} disableRipple>
+                  <MenuItem onClick={() => setAnchorEl(null)} disableRipple>
                     Views
                   </MenuItem>
                 </Menu>
@@ -64,8 +59,8 @@ const JobList = () => {
             </Box>
           </Stack>
           <Stack className="wrapper">
-            {jobs && jobs.length !== 0 ? (
-              jobs.map(() => <JobCard />)
+            {candidates && candidates.length !== 0 ? (
+              candidates.map((val) => <CandidantCard key={val} />)
             ) : (
               <div className="no-data">
                 <InfoOutlinedIcon />
@@ -74,12 +69,10 @@ const JobList = () => {
             )}
           </Stack>
           <Stack className="pagination-box">
-            <Pagination color="primary" count={1} page={1} />
+            <Pagination color="primary" count={3} page={1} />
           </Stack>
         </Stack>
       </Container>
     </div>
   );
-};
-
-export default JobList;
+}

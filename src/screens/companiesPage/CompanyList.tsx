@@ -1,21 +1,21 @@
 import {
+  Stack,
   Box,
-  Container,
   Menu,
   MenuItem,
   Pagination,
-  Stack,
+  Container,
 } from "@mui/material";
-import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import OtherHeader from "../../components/headers/OtherHeader";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import CompanyCard from "../../components/card/CompanyCard";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Filter from "./Filter";
-import JobCard from "../../components/card/JobCard";
 import { useState } from "react";
 
-const jobs = [1, 2, 3, 4, 5, 6];
+const companies = [1, 2, 3, 4, 5, 6, 7, 8];
 
-const JobList = () => {
+export default function CompanyList() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const sortingClickHandler = (e: any) => {
@@ -23,18 +23,14 @@ const JobList = () => {
   };
 
   return (
-    <div className="job-list">
+    <div className="company-list">
       <OtherHeader />
-
       <Container className="container">
-        {/* Filter (LEFT) */}
         <Filter />
-
-        {/* Result (RIGHT) */}
         <Stack className="result-box">
           <Stack className="top">
             <span className="result-count">
-              Showing <b>0 Jobs</b> of <b>1</b> page
+              Showing <b>0 Companies</b> of <b>0</b> total
             </span>
             <Box className="result-filter">
               <div className="sort-box">
@@ -64,8 +60,8 @@ const JobList = () => {
             </Box>
           </Stack>
           <Stack className="wrapper">
-            {jobs && jobs.length !== 0 ? (
-              jobs.map(() => <JobCard />)
+            {companies && companies.length !== 0 ? (
+              companies.map(() => <CompanyCard />)
             ) : (
               <div className="no-data">
                 <InfoOutlinedIcon />
@@ -80,6 +76,4 @@ const JobList = () => {
       </Container>
     </div>
   );
-};
-
-export default JobList;
+}

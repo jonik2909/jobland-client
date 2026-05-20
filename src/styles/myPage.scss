@@ -1,0 +1,1010 @@
+@use 'variables' as *;
+
+.my-page {
+    position: relative;
+    padding-right: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: #f5f7fc;
+
+    .tab-menu {
+        position: fixed;
+        padding: 170px 60px 0;
+        top: 0;
+        left: 0;
+        width: 360px;
+        min-height: 100%;
+        border: 1px solid #ecedf2;
+        background-color: #fff;
+        box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+
+        .tab {
+            padding: 0 20px;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            &.active {
+                background: #e8f0fb;
+
+                span {
+                    color: #1967d2;
+                }
+
+                svg {
+                    path {
+                        fill: #1967d2;
+                    }
+                }
+            }
+
+            span {
+                margin-left: 20px;
+                color: #696969;
+                font-family: $font;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 400;
+            }
+
+            svg {
+                path {
+                    fill: #696969;
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        padding: 60px 0;
+        width: calc(100% - 420px);
+        display: flex;
+        flex-direction: column;
+
+        .main-title {
+            color: #202124;
+            font-family: $font;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        .main-desc {
+            margin: 10px 0 60px;
+            color: #696969;
+            font-family: $font;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .content {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+
+            .wrap {
+                margin-bottom: 30px;
+                padding: 30px;
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+                border: 1px solid #ecedf2;
+                background: #fff;
+                box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+                box-sizing: border-box;
+
+                .title {
+                    color: #202124;
+                    font-family: $font;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+
+                .avatar-box {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: row;
+
+                    img {
+                        width: 150px;
+                        height: 150px;
+                        border-radius: 8px;
+                    }
+
+                    div {
+                        margin-left: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+
+                        button {
+                            width: 160px;
+                            height: 50px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 8px;
+                            background: #eff4fc;
+                            color: #1967d2;
+                            font-family: $font;
+                            font-size: 15px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+
+                        p {
+                            margin-top: 30px;
+                            color: #696969;
+                            font-family: $font;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+                }
+
+                .double-input {
+                    margin-top: 30px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+
+                .single-input {
+                    margin-top: 30px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+
+                    .box {
+                        width: 100%;
+                    }
+
+                    .video-box {
+                        padding: 10px;
+                        width: 100%;
+                        height: 600px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #f0f5f7;
+                        border-radius: 8px;
+
+                        video {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 8px;
+                            object-fit: fill;
+                        }
+                    }
+                }
+
+                div.box {
+                    width: calc(98% / 2);
+                    display: flex;
+                    flex-direction: column;
+
+                    span {
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    input,
+                    select,
+                    textarea {
+                        margin-top: 15px;
+                        padding: 0 20px;
+                        width: 100%;
+                        height: 60px;
+                        border-radius: 8px;
+                        background-color: #f0f5f7;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        outline: none;
+                        border: none;
+                        box-sizing: border-box;
+
+                        &:focus {
+                            border: 1px solid #1967d2;
+                            background: #fff;
+                            box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+                        }
+                    }
+
+                    textarea {
+                        padding: 30px;
+                        height: auto;
+                    }
+
+                    .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+                        background-color: #f0f5f7;
+                        height: 60px;
+                        box-sizing: border-box;
+                        border-radius: 8px;
+
+                        &:focus {
+                            border: 1px solid #1967d2;
+                            background: #fff;
+                            box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+                        }
+                    }
+
+                    .MuiOutlinedInput-notchedOutline {
+                        border: none;
+                    }
+                }
+
+                .box-wrap {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+
+                    button {
+                        width: 150px;
+                        height: 50px;
+                        border-radius: 8px;
+                        background: #1967d2;
+                        color: #fff;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        text-transform: capitalize;
+
+                        &.upload-btn {
+                            color: #696969;
+                            background: #f0f5f7;
+                            border: none;
+                        }
+                    }
+                }
+
+                iframe {
+                    margin-top: 30px;
+                    height: 417px;
+                    border-radius: 8px;
+                }
+
+                .filter-box {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .filter {
+                        display: flex;
+                        flex-direction: row;
+
+                        .sort-box {
+                            width: auto;
+                            min-width: 130px;
+                            height: 45px;
+                            margin-left: 10px;
+
+                            div {
+                                padding: 10px;
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 8px;
+                                background: #f0f5f7;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+
+                                svg {
+                                    margin-left: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .table-wrap {
+                    margin-top: 30px;
+
+                    td,
+                    th {
+                        font-family: $font;
+                    }
+
+                    thead th {
+                        font-size: 16px;
+                    }
+
+                    .my-job-title {
+                        display: flex;
+                        flex-direction: column;
+
+                        p {
+                            color: #202124;
+                            font-family: $font;
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: normal;
+                        }
+
+                        div {
+                            margin-top: 12px;
+                            display: flex;
+                            flex-direction: row;
+
+                            img {
+                                width: 15px;
+                                height: 15px;
+                            }
+
+                            span {
+                                margin-left: 10px;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        }
+                    }
+
+                    a {
+                        color: #1967d2;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    .date-box {
+                        display: flex;
+                        flex-direction: column;
+
+                        p {
+                            color: #696969;
+                            font-family: $font;
+                            font-size: 15px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+
+                    .job-status {
+                        font-family: $font;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                        padding: 6px 15px;
+                        border-radius: 30px;
+                        display: inline-block;
+
+                        &.approved {
+                            color: #34a853;
+                            background-color: rgba(52, 168, 83, 0.15);
+                        }
+
+                        &.rejected {
+                            color: #d93025;
+                            background-color: rgba(217, 48, 37, 0.15);
+                        }
+
+                        &.submitted {
+                            color: #1967d2;
+                            background-color: rgba(25, 103, 210, 0.15);
+                        }
+
+                        &.viewed {
+                            color: #f9ab00;
+                            background-color: rgba(249, 171, 0, 0.15);
+                        }
+                    }
+
+                    .job-action-box {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+
+                        div {
+                            width: 30px;
+                            height: 30px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 8px;
+                            background: #eff4fc;
+                            cursor: pointer;
+
+                            &:nth-child(2) {
+                                margin: 0 10px;
+                            }
+
+                            svg {
+                                width: 14px;
+                                height: 14px;
+                                color: #1967d2;
+                            }
+
+                            &.disable {
+                                background-color: gray;
+
+                                svg {
+                                    color: black;
+                                }
+                            }
+                        }
+                    }
+
+                    .applied-job-box {
+                        display: flex;
+
+                        .job-logo {
+                            margin-right: 20px;
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 8px;
+                        }
+                    }
+                }
+
+                .accordion-box {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: column;
+
+                    .title-text {
+                        width: 50%;
+                        color: #1967d2;
+                        font-family: $font;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    .total-text {
+                        width: 20%;
+                        color: #1967d2;
+                        font-family: $font;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    .approved-text {
+                        width: 15%;
+                        color: #34a853;
+                        font-family: $font;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    .rejected-text {
+                        color: #d93025;
+                        font-family: $font;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    .card-wrapper {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        gap: 20px;
+
+                        .my-candidate-card {
+                            padding: 30px;
+                            width: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            border-radius: 8px;
+                            border: 1px solid #ecedf2;
+                            background: #fff;
+                            box-sizing: border-box;
+                            transition: transform 0.3s;
+                            cursor: pointer;
+
+                            &:hover {
+                                opacity: 1;
+                                transform: scale(1.03);
+                                box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+                            }
+
+                            .user-img {
+                                width: 90px;
+                                height: 90px;
+                                border-radius: 50px;
+                                cursor: pointer;
+                            }
+
+                            .main-info {
+                                width: 80%;
+                                margin-left: 20px;
+                                display: flex;
+                                flex-direction: column;
+
+                                .job-title {
+                                    color: #202124;
+                                    font-family: $font;
+                                    font-size: 18px;
+                                    font-style: normal;
+                                    font-weight: 500;
+                                    line-height: normal;
+                                    cursor: pointer;
+                                }
+
+                                .main {
+                                    margin-top: 6px;
+                                    margin-bottom: 10px;
+                                    display: flex;
+                                    flex-direction: row;
+
+                                    div {
+                                        margin-right: 10px;
+                                        display: flex;
+                                        flex-direction: row;
+                                        align-items: center;
+
+                                        img {
+                                            width: 18px;
+                                            height: 18px;
+                                        }
+
+                                        span {
+                                            margin-left: 10px;
+                                            color: #696969;
+                                            font-family: $font;
+                                            font-size: 14px;
+                                            font-style: normal;
+                                            font-weight: 400;
+                                            line-height: normal;
+                                        }
+
+                                        strong {
+                                            color: #1967d2;
+                                            font-family: $font;
+                                            font-size: 14px;
+                                            font-style: normal;
+                                            font-weight: 400;
+                                            line-height: normal;
+                                        }
+                                    }
+                                }
+
+                                .badges {
+                                    display: flex;
+                                    flex-direction: row;
+
+                                    div {
+                                        padding: 7px 20px;
+                                        margin-right: 10px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        border-radius: 30px;
+                                        background: #f0f5f7;
+                                        color: #696969;
+                                        font-family: $font;
+                                        font-size: 14px;
+                                        font-style: normal;
+                                        font-weight: 400;
+                                        line-height: normal;
+                                    }
+                                }
+                            }
+
+                            .action-info {
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: center;
+                                align-items: center;
+
+                                div {
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    border-radius: 8px;
+                                    background: #eff4fc;
+                                    cursor: pointer;
+
+                                    &:nth-child(2) {
+                                        margin: 0 10px;
+                                    }
+
+                                    svg {
+                                        width: 20px;
+                                        height: 20px;
+                                        color: #1967d2;
+                                    }
+
+                                    &.active {
+                                        background-color: #1967d2;
+
+                                        svg {
+                                            color: #fff;
+                                        }
+                                    }
+
+                                    &:hover {
+                                        background-color: #1967d2;
+
+                                        svg {
+                                            color: #fff;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .resume-info-box {
+                    margin-top: 50px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+
+                    .top-content {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        span {
+                            color: #202124;
+                            font-family: $font;
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: normal;
+                        }
+
+                        div {
+                            min-width: 130px;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            color: #d93025;
+                            font-family: $font;
+                            font-size: 13px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+
+                            button {
+                                width: 30px;
+                                height: 30px;
+                                margin-right: 10px;
+                                background-color: #f9e0de;
+
+                                svg {
+                                    color: #d93025;
+                                    font-size: 20px;
+                                }
+                            }
+                        }
+                    }
+
+                    .bott-content {
+                        margin-top: 25px;
+                        display: flex;
+                        flex-direction: column;
+
+                        .experience-box {
+                            margin-top: 10px;
+                            display: flex;
+                            flex-direction: row;
+
+                            .left-box {
+                                width: auto;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+
+                                .order-number {
+                                    width: 30px;
+                                    height: 30px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    font-family: $font;
+                                    font-size: 11px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: normal;
+                                    border-radius: 50px;
+
+                                    &.blue {
+                                        background-color: #dde8f8;
+                                        color: #1967d2;
+                                    }
+
+                                    &.red {
+                                        background-color: #f9e0de;
+                                        color: #e6766f;
+                                    }
+
+                                    &.yellow {
+                                        background-color: #fef7e6;
+                                        color: #f9ab00;
+                                    }
+                                }
+
+                                .line {
+                                    height: 76%;
+                                    margin-top: 10px;
+                                    min-height: 140px;
+                                    border-left: 2px dashed #dde8f8;
+
+                                    &.blue {
+                                        border-left: 2px dashed #dde8f8;
+                                    }
+
+                                    &.red {
+                                        border-left: 2px dashed #f9e0de;
+                                    }
+
+                                    &.yellow {
+                                        border-left: 2px dashed #fef2d9;
+                                    }
+                                }
+                            }
+
+                            .right-box {
+                                margin-left: 30px;
+                                padding-bottom: 40px;
+                                width: 80%;
+                                display: flex;
+                                flex-direction: column;
+
+                                .company-box {
+                                    display: flex;
+                                    flex-direction: row;
+
+                                    .company-info {
+                                        display: flex;
+                                        flex-direction: column;
+
+                                        strong {
+                                            color: #202124;
+                                            font-family: $font;
+                                            font-size: 16px;
+                                            font-style: normal;
+                                            font-weight: 500;
+                                            line-height: normal;
+                                        }
+
+                                        span {
+                                            margin-top: 5px;
+                                            font-family: $font;
+                                            font-size: 15px;
+                                            font-style: normal;
+                                            font-weight: 400;
+                                            line-height: 26px;
+
+                                            &.blue {
+                                                color: #1967d2;
+                                            }
+
+                                            &.red {
+                                                color: #d93025;
+                                            }
+
+                                            &.yellow {
+                                                color: #f9ab00;
+                                            }
+                                        }
+                                    }
+
+                                    .year {
+                                        margin-left: 30px;
+                                        height: 25px;
+                                        padding: 6px 18px;
+                                        display: flex;
+                                        font-family: $font;
+                                        font-size: 13px;
+                                        font-style: normal;
+                                        font-weight: 400;
+                                        line-height: normal;
+                                        border-radius: 60px;
+                                        box-sizing: border-box;
+
+                                        &.blue {
+                                            background: #dde8f8;
+                                            color: #1967d2;
+                                        }
+
+                                        &.red {
+                                            background-color: #f9e0de;
+                                            color: #d93025;
+                                        }
+
+                                        &.yellow {
+                                            background-color: #fef7e6;
+                                            color: #f9ab00;
+                                        }
+                                    }
+
+                                    .resume-action-box {
+                                        margin-left: 25px;
+                                        display: flex;
+                                        flex-direction: row;
+                                        display: flex;
+                                        flex-direction: row;
+                                        justify-content: center;
+
+                                        div {
+                                            margin-right: 10px;
+                                            width: 30px;
+                                            height: 30px;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            border-radius: 8px;
+                                            background: #eff4fc;
+                                            cursor: pointer;
+
+                                            svg {
+                                                width: 15px;
+                                                height: 15px;
+                                                color: #1967d2;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                p {
+                                    margin-top: 40px;
+                                    color: #696969;
+                                    font-family: $font;
+                                    font-size: 15px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: 26px;
+                                }
+                            }
+
+                            .red-color {
+                                background-color: #f9e0de;
+                                color: #e6766f;
+                            }
+                        }
+                    }
+                }
+
+                .skill-box {
+                    margin-top: 50px;
+                    display: flex;
+                    flex-direction: column;
+
+                    .top {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        span {
+                            color: #202124;
+                            font-family: $font;
+                            font-size: 18px;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: normal;
+                        }
+
+                        .add-box {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            color: #d93025;
+                            font-family: $font;
+                            font-size: 13px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+
+                            button {
+                                width: 30px;
+                                height: 30px;
+                                margin-right: 10px;
+                                background-color: #f9e0de;
+
+                                svg {
+                                    color: #d93025;
+                                    font-size: 20px;
+                                }
+                            }
+                        }
+                    }
+
+                    div.card-wrapper {
+                        margin-top: 20px;
+                        width: 100%;
+                        padding: 25px;
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        border-radius: 8px;
+                        background: #f5f7fc;
+
+                        div {
+                            margin: 10px 10px 0 0;
+                            padding: 5px 20px;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            background-color: #d4e1f6;
+                            color: #1967d2;
+                            font-family: $font;
+                            font-size: 13px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                            border-radius: 60px;
+                            cursor: pointer;
+
+                            svg {
+                                margin-left: 8px;
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                }
+
+                .pagination-box {
+                    margin-top: 50px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}

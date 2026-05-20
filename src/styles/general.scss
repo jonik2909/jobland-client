@@ -1,5 +1,216 @@
 @use './variables' as *;
 
+.other-header {
+    position: relative;
+    width: 100%;
+    height: 165px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    background: #f5f7fc;
+    backdrop-filter: blur(50px);
+
+    strong {
+        color: #202124;
+        font-family: $font;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    span {
+        margin-top: 10px;
+        color: #696969;
+        font-family: $font;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+}
+
+.no-data {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        font-size: 40px;
+        color: #696969;
+    }
+
+    span {
+        margin-top: 10px;
+        color: #696969;
+        font-family: $font;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+}
+
+.detail-header {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    background: #f5f7fc;
+    backdrop-filter: blur(50px);
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img.logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+        }
+
+        .main-info {
+            width: 88%;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+
+            .job-title {
+                color: #202124;
+                font-family: $font;
+                font-size: 26px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                cursor: pointer;
+                text-transform: capitalize;
+            }
+
+            .main {
+                margin-top: 16px;
+                margin-bottom: 19px;
+
+                display: flex;
+                flex-direction: row;
+
+                div {
+                    margin-right: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    img {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    span {
+                        margin-left: 10px;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    strong {
+                        color: #1967d2;
+                        font-family: $font;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+                }
+            }
+
+            .badges {
+                display: flex;
+                flex-direction: row;
+
+                div {
+                    margin-right: 15px;
+                    padding: 0 10px;
+                    min-width: 90px;
+                    height: 25px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 60px;
+
+                    font-family: $font;
+                    font-size: 13px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+
+                    &:nth-child(1) {
+                        background: #dde8f8;
+                        color: #1967d2;
+                    }
+
+                    &:nth-child(2) {
+                        background: #e1f2e5;
+                        color: #34a853;
+                    }
+
+                    &:nth-child(3) {
+                        background: #fef2d9;
+                        color: #f9ab00;
+                    }
+                }
+            }
+        }
+
+        .btns {
+            display: flex;
+            flex-direction: row;
+
+            button {
+                width: 220px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                background: #1967d2;
+                color: #fff;
+                font-family: $font;
+                font-size: 17px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
+            div {
+                margin-left: 20px;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+                background: #d4e2f5;
+                cursor: pointer;
+
+                svg {
+                    color: #1967d2;
+                }
+            }
+        }
+    }
+}
+
 .job-card {
     padding: 30px;
     min-height: 156px;
@@ -35,6 +246,7 @@
         margin-left: 20px;
         display: flex;
         flex-direction: column;
+        text-transform: capitalize;
 
         .job-title {
             overflow: hidden;
@@ -126,5 +338,293 @@
     svg {
         cursor: pointer;
         visibility: hidden;
+    }
+}
+
+.company-card {
+    position: relative;
+    padding: 30px 0;
+    width: 266px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid #ecedf2;
+    background: #fff;
+    transition: transform 0.3s;
+    box-sizing: border-box;
+
+    &:hover {
+        opacity: 1;
+        transform: scale(1.03);
+        box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50px;
+    }
+
+    strong {
+        margin-top: 15px;
+        color: #202124;
+        font-family: $font;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        text-transform: capitalize;
+    }
+
+    .spec-box {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+            width: 13px;
+            height: 16px;
+        }
+
+        span {
+            margin-left: 10px;
+            color: #696969;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+
+    button {
+        margin-top: 20px;
+        width: 120px;
+        height: 25px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border-radius: 60px;
+        background: #dde8f8;
+        color: #1967d2;
+        font-family: $font;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .featured {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 5px 19px;
+        border-radius: 60px;
+        background: #e1f2e5;
+        color: #34a853;
+        font-family: $font;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+}
+
+.candidant-card {
+    margin-top: 30px;
+    padding: 30px;
+    width: 856px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 8px;
+    border: 1px solid #ecedf2;
+    background: #fff;
+    box-sizing: border-box;
+    transition: transform 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 1;
+        transform: scale(1.03);
+        box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
+
+        .view-info {
+            .bookmark {
+                visibility: visible;
+            }
+        }
+    }
+
+    .user-img {
+        width: 90px;
+        height: 90px;
+        border-radius: 50px;
+        cursor: pointer;
+    }
+
+    .main-info {
+        width: 60%;
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+
+        .job-title {
+            color: #202124;
+            font-family: $font;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            cursor: pointer;
+        }
+
+        .main {
+            margin-top: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+
+            div {
+                margin-right: 15px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                img {
+                    width: 18px;
+                    height: 18px;
+                }
+
+                span {
+                    margin-left: 10px;
+                    color: #696969;
+                    font-family: $font;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+
+                strong {
+                    color: #1967d2;
+                    font-family: $font;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+            }
+        }
+
+        .badges {
+            display: flex;
+            flex-direction: row;
+
+            div {
+                padding: 7px 20px;
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 30px;
+                background: #f0f5f7;
+                color: #696969;
+                font-family: $font;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+    }
+
+    .view-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .bookmark {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            background-color: #ecedf2;
+            visibility: hidden;
+
+            svg {
+                width: 15px;
+                height: 15px;
+                color: #696969;
+            }
+        }
+
+        button {
+            margin-left: 20px;
+            width: 160px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: #1967d2;
+            color: #fff;
+            font-family: $font;
+            font-size: 15px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+}
+
+
+.status-badge {
+    font-family: $font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 6px 15px;
+    border-radius: 30px;
+    display: inline-block;
+    text-transform: capitalize;
+
+    &.approved,
+    &.active,
+    &.complete {
+        color: #34a853;
+        background-color: rgba(52, 168, 83, 0.15);
+    }
+
+    &.rejected,
+    &.block,
+    &.delete {
+        color: #d93025;
+        background-color: rgba(217, 48, 37, 0.15);
+    }
+
+    &.submitted,
+    &.process,
+    &.admin,
+    &.company,
+    &.candidate {
+        color: #1967d2;
+        background-color: rgba(25, 103, 210, 0.15);
+    }
+
+    &.viewed,
+    &.pending,
+    &.pause,
+    &.hold {
+        color: #f9ab00;
+        background-color: rgba(249, 171, 0, 0.15);
     }
 }

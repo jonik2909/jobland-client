@@ -1,0 +1,373 @@
+@use './variables' as *;
+
+.company-page {
+    .company-list {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .container {
+            margin-top: 50px;
+            margin-bottom: 140px;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .filter-box {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+
+                .filter {
+                    padding: 30px;
+                    width: 393px;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 8px;
+                    background: #f5f7fc;
+                    box-sizing: border-box;
+
+                    .title {
+                        margin-bottom: 13px;
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+
+                        &.no-mr {
+                            margin: 0;
+                        }
+                    }
+
+                    .select-box {
+                        margin-bottom: 30px;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+
+                        .MuiTextField-root {
+                            width: 100%;
+                            height: auto;
+                            background: #fff;
+
+                            .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+                                border: 1px solid #ecedf2;
+                            }
+
+                            input {
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 15px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        }
+
+                        .MuiSelect-root,
+                        .MuiSelect-select {
+                            background: #fff;
+                            color: #696969;
+                            font-family: $font;
+                            font-size: 17px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+
+                            .css-1i27l4i {
+                                align-items: center;
+                            }
+                        }
+
+                        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+                            border: 1px solid #ecedf2;
+                        }
+                    }
+                }
+            }
+
+            .result-box {
+                width: 856px;
+                display: flex;
+                flex-direction: column;
+
+                .top {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .result-count {
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    .result-filter {
+                        display: flex;
+                        flex-direction: row;
+
+                        .sort-box {
+                            width: 110px;
+                            height: 45px;
+                            margin-left: 10px;
+
+                            div {
+                                width: 100%;
+                                height: 100%;
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 8px;
+                                background: #f0f5f7;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+
+                                svg {
+                                    margin-left: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .wrapper {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    gap: 28px;
+                }
+
+                .pagination-box {
+                    margin-top: 50px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    .company-detail {
+        position: relative;
+        padding-bottom: 100px;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .container {
+            position: relative;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .left {
+                margin-top: 50px;
+                width: 847px;
+                display: flex;
+                flex-direction: column;
+
+                .info {
+                    min-height: 430px;
+                    display: flex;
+                    flex-direction: column;
+
+                    span {
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    p {
+                        margin: 20px 0px;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 26px;
+                        white-space: pre-wrap;
+                    }
+
+                    div {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+
+                        img {
+                            width: 23%;
+                            height: 167px;
+                            border-radius: 8px;
+                        }
+                    }
+                }
+
+                .related-job-box {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: column;
+
+                    span.title {
+                        color: #000;
+                        font-family: $font;
+                        font-size: 26px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    p.desc {
+                        margin-top: 5px;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    .wrapper {
+                        margin-top: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 30px;
+                    }
+                }
+            }
+
+            .right {
+                width: 388px;
+                margin-top: 50px;
+                display: flex;
+                flex-direction: column;
+
+                .company-box {
+                    padding: 10px 30px 30px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+                    box-sizing: border-box;
+                    border-radius: 8px;
+                    background: #f5f7fc;
+
+                    .company-info {
+                        display: flex;
+                        flex-direction: column;
+
+                        .detail {
+                            margin-top: 20px;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+
+                            strong {
+                                color: #202124;
+                                font-family: $font;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 500;
+                            }
+
+                            span {
+                                color: #696969;
+                                text-align: right;
+                                font-family: $font;
+                                font-size: 15px;
+                                font-style: normal;
+                                font-weight: 400;
+                                text-transform: capitalize;
+                            }
+
+                            div {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+
+                                svg {
+                                    margin-left: 17px;
+                                    color: #696969;
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        color: #bc91e8;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    button {
+                        margin-top: 25px;
+                        width: 100%;
+                        height: 50px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #d4e1f6;
+                        border-radius: 8px;
+                        color: #1967d2;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        text-transform: capitalize;
+                    }
+                }
+
+                .location-box {
+                    margin-top: 30px;
+                    padding: 30px;
+                    width: 388px;
+                    height: 362px;
+                    display: flex;
+                    flex-direction: column;
+                    box-sizing: border-box;
+                    border-radius: 8px;
+                    background: #f5f7fc;
+
+                    span {
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    div {
+                        width: 100%;
+                        height: 250px;
+                        margin-top: 30px;
+                        border-radius: 8px;
+
+                        iframe {
+                            border-radius: 8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

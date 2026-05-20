@@ -1,8 +1,14 @@
-@use "./reset.scss" as *;
-@use "./variables.scss" as *;
+@use "./reset" as *;
 @use "../font/stylesheet.css";
-@use "./home.scss";
-@use "./general.scss";
+@use "./variables" as *;
+@use "./general" as *;
+@use "./home" as *;
+@use "./jobs" as *;
+@use "./company" as *;
+@use "./candidant" as *;
+@use "./myPage" as *;
+@use "./admin" as *;
+@use "./join" as *;
 
 .container {
   display: flex;

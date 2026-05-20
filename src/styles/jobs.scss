@@ -1,0 +1,652 @@
+@use './variables' as *;
+
+.job-page {
+    .job-list {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .container {
+            margin-top: 50px;
+            margin-bottom: 140px;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .filter-box {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+
+                .filter {
+                    padding: 30px;
+                    width: 393px;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 8px;
+                    background: #f5f7fc;
+                    box-sizing: border-box;
+
+                    .title {
+                        margin-bottom: 13px;
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+
+                        &.no-mr {
+                            margin: 0;
+                        }
+                    }
+
+                    .select-box {
+                        margin-bottom: 30px;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+
+                        .MuiTextField-root {
+                            width: 100%;
+                            height: auto;
+                            background: #fff;
+
+                            .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+                                border: 1px solid #ecedf2;
+                            }
+
+                            input {
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 15px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        }
+
+                        .MuiSelect-root,
+                        .MuiSelect-select {
+                            background: #fff;
+                            color: #696969;
+                            font-family: $font;
+                            font-size: 17px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+
+                            .css-1i27l4i {
+                                align-items: center;
+                            }
+                        }
+
+                        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+                            border: 1px solid #ecedf2;
+                        }
+                    }
+
+                    .switch-box {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+
+                        .switch {
+                            margin-top: 20px;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+
+                            &.small {
+                                height: 20px;
+                            }
+
+                            p {
+                                margin-left: 10px;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 17px;
+                                font-style: normal;
+                                font-weight: 400;
+                            }
+
+                            .MuiFormControlLabel-label {
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 17px;
+                                font-style: normal;
+                                font-weight: 400;
+                            }
+                        }
+                    }
+
+
+
+                    .tag-box {
+                        margin-top: 30px;
+                        display: flex;
+                        flex-direction: column;
+
+                        .wrapper {
+                            display: flex;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+
+                            div {
+                                margin-right: 10px;
+                                margin-bottom: 10px;
+                                width: auto;
+                                height: auto;
+                                padding: 7px 20px;
+                                border-radius: 4px;
+                                background: #fff;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        }
+                    }
+                }
+
+                .adv {
+                    position: relative;
+                    margin-top: 70px;
+                    padding: 30px;
+                    max-width: 393px;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 8px;
+                    background: #f0f5f7;
+
+                    span {
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    p {
+                        width: 220px;
+                        margin: 17px 0px 27px;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 24px;
+                    }
+
+                    button {
+                        width: 220px;
+                        height: 50px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 8px;
+                        background: #1967d2;
+                        color: #fff;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    img {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+            }
+
+            .result-box {
+                width: 856px;
+                display: flex;
+                flex-direction: column;
+
+                .top {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .result-count {
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    .result-filter {
+                        display: flex;
+                        flex-direction: row;
+
+                        .sort-box {
+                            width: 110px;
+                            height: 45px;
+                            margin-left: 10px;
+
+                            div {
+                                width: 100%;
+                                height: 100%;
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 8px;
+                                background: #f0f5f7;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+
+                                svg {
+                                    margin-left: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .wrapper {
+                    margin-top: 30px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 30px;
+                }
+
+                .pagination-box {
+                    margin-top: 50px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    .job-detail {
+        position: relative;
+        padding-bottom: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .left {
+                width: 865px;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+
+                div.info {
+                    min-height: 200px;
+                    margin-top: 50px;
+                    display: flex;
+                    flex-direction: column;
+
+                    span {
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 18px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    p,
+                    li {
+                        margin-top: 20px;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 26px;
+                        white-space: pre-wrap;
+                    }
+
+                    ul {
+                        margin: 0;
+                        padding: 0 0px 0 14px;
+
+                        li {
+                            padding-left: 10px;
+                        }
+                    }
+                }
+
+                div.share-box {
+                    margin-top: 40px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    span {
+                        color: #202124;
+                        font-family: $font;
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    .btns {
+                        margin-left: 20px;
+                        display: flex;
+                        flex-direction: row;
+
+                        button {
+                            margin-right: 10px;
+                            width: 134px;
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 8px;
+                            color: #fff;
+                            font-family: $font;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+
+                            svg {
+                                margin-right: 10px;
+                                color: white;
+                            }
+
+                            &.facebook {
+                                background-color: #1967d2;
+                            }
+
+                            &.twitter {
+                                background-color: #bc91e8;
+                            }
+
+                            &.google {
+                                background-color: #d93025;
+                            }
+                        }
+                    }
+                }
+
+                .related-job-box {
+                    margin-top: 50px;
+                    display: flex;
+                    flex-direction: column;
+
+                    .title {
+                        color: #000;
+                        font-family: $font;
+                        font-size: 26px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal;
+                    }
+
+                    .desc {
+                        margin-top: 10px;
+                        color: #696969;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+
+                    .wrapper {
+                        margin-top: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 30px;
+                    }
+                }
+            }
+
+            .right {
+                margin-top: 50px;
+                width: 393px;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+
+                .main-title {
+                    color: #202124;
+                    font-family: $font;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+
+                .overview-box {
+                    padding: 30px;
+                    width: 100%;
+                    height: auto;
+                    flex-shrink: 0;
+                    display: flex;
+                    flex-direction: column;
+                    box-sizing: border-box;
+                    border-radius: 8px;
+                    background: #f5f7fc;
+
+                    .info-box {
+                        margin-top: 30px;
+                        display: flex;
+                        flex-direction: row;
+
+                        img {
+                            margin-right: 30px;
+                            width: 20px;
+                            height: 20px;
+                        }
+
+                        div {
+                            display: flex;
+                            flex-direction: column;
+
+                            strong {
+                                color: #202124;
+                                font-family: $font;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: normal;
+                            }
+
+                            span {
+                                margin-top: 5px;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 15px;
+                                font-style: normal;
+                                font-weight: 400;
+                            }
+                        }
+                    }
+
+                    .location-box {
+                        margin-top: 50px;
+                        display: flex;
+                        flex-direction: column;
+
+                        div {
+                            width: 100%;
+                            height: 250px;
+                            margin-top: 30px;
+                            border-radius: 8px;
+
+                            iframe {
+                                border-radius: 8px;
+                            }
+                        }
+                    }
+
+                    .tag-box {
+                        margin-top: 50px;
+                        display: flex;
+                        flex-direction: column;
+
+                        .wrapper {
+                            margin-top: 15px;
+                            display: flex;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+
+                            div {
+                                margin-right: 10px;
+                                margin-bottom: 10px;
+                                width: auto;
+                                height: auto;
+                                padding: 7px 20px;
+                                border-radius: 4px;
+                                background: #fff;
+                                color: #696969;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        }
+                    }
+                }
+
+                .company-box {
+                    margin-top: 30px;
+                    padding: 30px;
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-direction: column;
+                    box-sizing: border-box;
+                    border-radius: 8px;
+                    background: #f5f7fc;
+
+                    .company-main-info {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+
+                        img {
+                            width: 60px;
+                            height: 60px;
+                            border-radius: 8px;
+                        }
+
+                        div {
+                            margin-left: 20px;
+                            display: flex;
+                            flex-direction: column;
+
+                            span {
+                                color: #202124;
+                                font-family: $font;
+                                font-size: 18px;
+                                font-style: normal;
+                                font-weight: 500;
+                                line-height: normal;
+                                text-transform: capitalize;
+                            }
+
+                            p {
+                                margin-top: 10px;
+                                color: #1967d2;
+                                font-family: $font;
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: normal;
+                            }
+                        }
+                    }
+
+                    .company-detail {
+                        margin-top: 10px;
+                        display: flex;
+                        flex-direction: column;
+
+                        .detail {
+                            margin-top: 20px;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+
+                            strong {
+                                color: #202124;
+                                font-family: $font;
+                                font-size: 16px;
+                                font-style: normal;
+                                font-weight: 500;
+                            }
+
+                            span {
+                                color: #696969;
+                                text-align: right;
+                                font-family: $font;
+                                font-size: 15px;
+                                font-style: normal;
+                                font-weight: 400;
+                                text-transform: capitalize;
+                            }
+
+                            div {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+
+                                svg {
+                                    margin-left: 17px;
+                                    color: #696969;
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        color: #bc91e8;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    button {
+                        margin-top: 25px;
+                        width: 100%;
+                        height: 50px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #d4e1f6;
+                        border-radius: 8px;
+                        color: #1967d2;
+                        font-family: $font;
+                        font-size: 15px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+                }
+            }
+        }
+    }
+}
