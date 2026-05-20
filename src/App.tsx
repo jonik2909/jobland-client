@@ -14,7 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="jobs" element={<JobsPage />} />
+        <Route path="jobs/*" element={<JobsPage />} />
         <Route path="companies" element={<CompaniesPage />} />
         <Route path="candidates" element={<CandidatesPage />} />
         <Route path="join" element={<JoinPage />} />
