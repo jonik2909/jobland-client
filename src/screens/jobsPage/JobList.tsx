@@ -16,28 +16,39 @@ import jobService from "../../services/JobService";
 import { JobSort } from "../../types/enums/job.enum";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectJobs, setJobs } from "./state";
-import type { Job } from "../../types/job";
+import type { Job, JobsInquiry } from "../../types/job";
 
 const JobList = () => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const jobs = useAppSelector(selectJobs);
+  const [filterName, setFilterName] = useState("New");
+  const [jobsInquiry, setJobsInquiry] = useState<JobsInquiry>({
+    page: 1,
+    limit: 6,
+    sort: JobSort.createdAt,
+  });
+
+  console.log("jobsInquiry:", jobsInquiry);
 
   useEffect(() => {
+    console.log("BACKEND REFETCH");
     jobService
-      .getJobs({
-        page: 1,
-        limit: 6,
-        sort: JobSort.createdAt,
-      })
+      .getJobs(jobsInquiry)
       .then((data) => {
         dispatch(setJobs(data));
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [jobsInquiry]);
 
   const sortingClickHandler = (e: any) => {
     setAnchorEl(e.currentTarget);
+  };
+
+  const sortingHandler = (sort: JobSort) => {
+    setFilterName(sort === JobSort.createdAt ? "New" : "Views");
+    setJobsInquiry({ ...jobsInquiry, sort: sort });
+    setAnchorEl(null);
   };
 
   return (
@@ -46,7 +57,7 @@ const JobList = () => {
 
       <Container className="container">
         {/* Filter (LEFT) */}
-        <Filter />
+        <Filter jobsInquiry={jobsInquiry} setJobsInquiry={setJobsInquiry} />
 
         {/* Result (RIGHT) */}
         <Stack className="result-box">
@@ -57,7 +68,7 @@ const JobList = () => {
             <Box className="result-filter">
               <div className="sort-box">
                 <div onClick={sortingClickHandler}>
-                  New <KeyboardArrowDownRoundedIcon />
+                  {filterName} <KeyboardArrowDownRoundedIcon />
                 </div>
                 <Menu
                   anchorEl={anchorEl}
@@ -71,10 +82,18 @@ const JobList = () => {
                     },
                   }}
                 >
-                  <MenuItem id={"new"} disableRipple>
+                  <MenuItem
+                    id={"new"}
+                    disableRipple
+                    onClick={() => sortingHandler(JobSort.createdAt)}
+                  >
                     New
                   </MenuItem>
-                  <MenuItem id={"views"} disableRipple>
+                  <MenuItem
+                    id={"views"}
+                    disableRipple
+                    onClick={() => sortingHandler(JobSort.jobViews)}
+                  >
                     Views
                   </MenuItem>
                 </Menu>

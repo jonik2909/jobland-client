@@ -16,8 +16,54 @@ import { AntSwitch } from "../../MaterialTheme/styled";
 import { CategoryType, Country } from "../../types/enums/common.enum";
 import { formatEnum } from "../../lib/config";
 import { JobLevel, JobType } from "../../types/enums/job.enum";
+import { useState } from "react";
+import type { JobsInquiry } from "../../types/job";
 
-export default function Filter() {
+interface FilterProps {
+  jobsInquiry: JobsInquiry;
+  setJobsInquiry: (value: JobsInquiry) => void;
+}
+
+export default function Filter(props: FilterProps) {
+  const { jobsInquiry, setJobsInquiry } = props;
+  const [location, setLocation] = useState("All");
+  const [category, setCategory] = useState("All");
+
+  const locationHandler = (e: any) => {
+    const value = e.target.value;
+    setLocation(value);
+
+    setJobsInquiry({
+      ...jobsInquiry,
+      jobCountry: value === "All" ? undefined : value,
+    });
+  };
+
+  const categoryHandler = (e: any) => {
+    const value = e.target.value;
+    setCategory(value);
+
+    setJobsInquiry({
+      ...jobsInquiry,
+      jobCategory: value === "All" ? undefined : value,
+    });
+  };
+
+  const typeHandler = (type: string) => {
+    setJobsInquiry({
+      ...jobsInquiry,
+      jobType: jobsInquiry.jobType === type ? undefined : (type as JobType),
+    });
+  };
+
+  const levelHandler = (level: string) => {
+    setJobsInquiry({
+      ...jobsInquiry,
+      jobLevel:
+        jobsInquiry.jobLevel === level ? undefined : (level as JobLevel),
+    });
+  };
+
   return (
     <Stack className="filter-box">
       <Stack className="filter">
@@ -42,7 +88,8 @@ export default function Filter() {
           <FormControl fullWidth>
             <Select
               displayEmpty
-              value={"All"}
+              value={location}
+              onChange={locationHandler}
               inputProps={{ "aria-label": "Without label" }}
               renderValue={(value) => {
                 return (
@@ -90,7 +137,8 @@ export default function Filter() {
           <FormControl fullWidth>
             <Select
               displayEmpty
-              value={"All"}
+              value={category}
+              onChange={categoryHandler}
               inputProps={{ "aria-label": "Without label" }}
               renderValue={(value) => {
                 return (
@@ -124,7 +172,7 @@ export default function Filter() {
                         </defs>
                       </svg>
                     </SvgIcon>
-                    {value}
+                    {formatEnum(value)}
                   </Box>
                 );
               }}
@@ -144,7 +192,10 @@ export default function Filter() {
           <strong className="title no-mr">Job Type</strong>
           {Object.keys(JobType).map((type) => (
             <div className="switch">
-              <AntSwitch defaultChecked={false} />
+              <AntSwitch
+                checked={jobsInquiry.jobType === type}
+                onChange={() => typeHandler(type)}
+              />
               <Typography>{formatEnum(type)}</Typography>
             </div>
           ))}
@@ -155,7 +206,13 @@ export default function Filter() {
             <div className="switch small">
               <FormControlLabel
                 label={level}
-                control={<Checkbox defaultChecked={false} name={level} />}
+                control={
+                  <Checkbox
+                    checked={jobsInquiry.jobLevel === level}
+                    name={level}
+                    onChange={() => levelHandler(level)}
+                  />
+                }
               />
             </div>
           ))}
