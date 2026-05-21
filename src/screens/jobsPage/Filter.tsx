@@ -22,10 +22,11 @@ import type { JobsInquiry } from "../../types/job";
 interface FilterProps {
   jobsInquiry: JobsInquiry;
   setJobsInquiry: (value: JobsInquiry) => void;
+  setSearchText: (value: string) => void;
 }
 
 export default function Filter(props: FilterProps) {
-  const { jobsInquiry, setJobsInquiry } = props;
+  const { jobsInquiry, setJobsInquiry, setSearchText } = props;
   const [location, setLocation] = useState("All");
   const [category, setCategory] = useState("All");
 
@@ -36,6 +37,7 @@ export default function Filter(props: FilterProps) {
     setJobsInquiry({
       ...jobsInquiry,
       jobCountry: value === "All" ? undefined : value,
+      page: 1,
     });
   };
 
@@ -46,6 +48,7 @@ export default function Filter(props: FilterProps) {
     setJobsInquiry({
       ...jobsInquiry,
       jobCategory: value === "All" ? undefined : value,
+      page: 1,
     });
   };
 
@@ -53,6 +56,7 @@ export default function Filter(props: FilterProps) {
     setJobsInquiry({
       ...jobsInquiry,
       jobType: jobsInquiry.jobType === type ? undefined : (type as JobType),
+      page: 1,
     });
   };
 
@@ -61,7 +65,14 @@ export default function Filter(props: FilterProps) {
       ...jobsInquiry,
       jobLevel:
         jobsInquiry.jobLevel === level ? undefined : (level as JobLevel),
+      page: 1,
     });
+  };
+
+  const searchEnterHandler = (e: any) => {
+    if (e.key === "Enter") {
+      setJobsInquiry({ ...jobsInquiry, search: e.target.value, page: 1 });
+    }
   };
 
   return (
@@ -72,6 +83,8 @@ export default function Filter(props: FilterProps) {
           <TextField
             variant="outlined"
             placeholder="Job title, keywords, or company"
+            onChange={(e: any) => setSearchText(e.target.value)}
+            onKeyDown={searchEnterHandler}
             slotProps={{
               input: {
                 startAdornment: (

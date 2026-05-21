@@ -23,13 +23,12 @@ const JobList = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const jobs = useAppSelector(selectJobs);
   const [filterName, setFilterName] = useState("New");
+  const [searchText, setSearchText] = useState("");
   const [jobsInquiry, setJobsInquiry] = useState<JobsInquiry>({
     page: 1,
     limit: 6,
     sort: JobSort.createdAt,
   });
-
-  console.log("jobsInquiry:", jobsInquiry);
 
   useEffect(() => {
     console.log("BACKEND REFETCH");
@@ -41,15 +40,32 @@ const JobList = () => {
       .catch((err) => console.log(err));
   }, [jobsInquiry]);
 
+  useEffect(() => {
+    if (searchText === "") {
+      setSearchText("");
+      setJobsInquiry({ ...jobsInquiry, search: "" });
+    }
+  }, [searchText]);
+
   const sortingClickHandler = (e: any) => {
     setAnchorEl(e.currentTarget);
   };
 
   const sortingHandler = (sort: JobSort) => {
     setFilterName(sort === JobSort.createdAt ? "New" : "Views");
-    setJobsInquiry({ ...jobsInquiry, sort: sort });
+    setJobsInquiry({ ...jobsInquiry, sort: sort, page: 1 });
     setAnchorEl(null);
   };
+
+  const paginationHandler = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setJobsInquiry({ ...jobsInquiry, page: value });
+  };
+
+  const start = (jobsInquiry.page - 1) * jobsInquiry.limit + 1;
+  const end = Math.min(jobsInquiry.page * jobsInquiry.limit, jobs.total);
 
   return (
     <div className="job-list">
@@ -57,13 +73,21 @@ const JobList = () => {
 
       <Container className="container">
         {/* Filter (LEFT) */}
-        <Filter jobsInquiry={jobsInquiry} setJobsInquiry={setJobsInquiry} />
+        <Filter
+          jobsInquiry={jobsInquiry}
+          setJobsInquiry={setJobsInquiry}
+          setSearchText={setSearchText}
+        />
 
         {/* Result (RIGHT) */}
         <Stack className="result-box">
           <Stack className="top">
             <span className="result-count">
-              Showing <b>0 Jobs</b> of <b>1</b> page
+              Showing{" "}
+              <b>
+                {start}-{end}
+              </b>{" "}
+              of <b>{jobs.total}</b> jobs
             </span>
             <Box className="result-filter">
               <div className="sort-box">
@@ -111,7 +135,12 @@ const JobList = () => {
             )}
           </Stack>
           <Stack className="pagination-box">
-            <Pagination color="primary" count={1} page={1} />
+            <Pagination
+              color="primary"
+              count={Math.ceil(jobs.total / jobsInquiry.limit)}
+              page={jobsInquiry.page}
+              onChange={paginationHandler}
+            />
           </Stack>
         </Stack>
       </Container>
