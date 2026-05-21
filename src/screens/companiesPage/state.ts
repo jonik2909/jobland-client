@@ -14,7 +14,7 @@ const initialState: CompaniesPageState = {
 };
 
 export const companiesPageSlice = createSlice({
-  name: "jobsPage",
+  name: "companiesPage",
   initialState,
   reducers: {
     setCompanies: (

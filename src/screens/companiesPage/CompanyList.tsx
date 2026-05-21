@@ -11,12 +11,30 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import CompanyCard from "../../components/card/CompanyCard";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Filter from "./Filter";
-import { useState } from "react";
-
-const companies = [1, 2, 3, 4, 5, 6, 7, 8];
+import { useEffect, useState } from "react";
+import memberService from "../../services/MemberService";
+import { MemberSort, MemberType } from "../../types/enums/member.enum";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectCompanies, setCompanies } from "./state";
+import type { Member, MembersInquiry } from "../../types/member";
 
 export default function CompanyList() {
+  const dispatch = useAppDispatch();
+  const companies = useAppSelector(selectCompanies);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [companiesInquiry, setCompaniesInquiry] = useState<MembersInquiry>({
+    page: 1,
+    limit: 6,
+    sort: MemberSort.createdAt,
+    memberType: MemberType.COMPANY,
+  });
+
+  useEffect(() => {
+    memberService
+      .getMembers(companiesInquiry)
+      .then((data) => dispatch(setCompanies(data)))
+      .catch((err) => console.log(err));
+  }, []);
 
   const sortingClickHandler = (e: any) => {
     setAnchorEl(e.currentTarget);
@@ -60,8 +78,10 @@ export default function CompanyList() {
             </Box>
           </Stack>
           <Stack className="wrapper">
-            {companies && companies.length !== 0 ? (
-              companies.map(() => <CompanyCard />)
+            {companies && companies.list.length !== 0 ? (
+              companies.list.map((company: Member) => (
+                <CompanyCard company={company} />
+              ))
             ) : (
               <div className="no-data">
                 <InfoOutlinedIcon />

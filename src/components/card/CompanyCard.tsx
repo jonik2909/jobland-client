@@ -1,24 +1,34 @@
-import { Box } from '@mui/material';
-import { Link } from 'react-router';
+import { Box } from "@mui/material";
+import { Link } from "react-router";
+import type { Member } from "../../types/member";
+import { formatEnum, getImageUrl } from "../../lib/config";
+import { MemberFeatured } from "../../types/enums/member.enum";
 
-export default function CompanyCard() {
-	return (
-		<Link to={`/companies/1`}>
-			<Box className="company-card">
-				<div className="featured">Featured</div>
-				<img src="/icons/default-user.svg" alt="" className="logo" />
-				<strong>TechCorp Inc.</strong>
+interface CompanyCardProps {
+  company: Member;
+}
 
-				<div className="spec-box">
-					<img src="/icons/brifcase-gray.svg" alt="" />
-					<span>Development</span>
-				</div>
-				<div className="spec-box">
-					<img src="/icons/location.svg" alt="" />
-					<span>Uzbekistan</span>
-				</div>
-				<button>Open Jobs - 4</button>
-			</Box>
-		</Link>
-	);
+export default function CompanyCard(props: CompanyCardProps) {
+  const { company } = props;
+  return (
+    <Link to={`/companies/1`}>
+      <Box className="company-card">
+        {company.memberFeatured === MemberFeatured.YES && (
+          <div className="featured">Featured</div>
+        )}
+        <img src={getImageUrl(company.memberImage)} alt="" className="logo" />
+        <strong>{company.memberNick}</strong>
+
+        <div className="spec-box">
+          <img src="/icons/brifcase-gray.svg" alt="" />
+          <span>{formatEnum(company.memberCategory) || "-"}</span>
+        </div>
+        <div className="spec-box">
+          <img src="/icons/location.svg" alt="" />
+          <span>{company.memberCountry || "-"}</span>
+        </div>
+        <button>Open Jobs - {company.activeJobs}</button>
+      </Box>
+    </Link>
+  );
 }
