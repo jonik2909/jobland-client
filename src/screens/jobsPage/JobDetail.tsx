@@ -8,16 +8,21 @@ import DetailHeader from "../../components/headers/DetailHeader";
 import { useEffect } from "react";
 import jobService from "../../services/JobService";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { selectJobDetail, setJobDetail } from "./state";
+import {
+  selectJobDetail,
+  selectRelatedJobs,
+  setJobDetail,
+  setRelatedJobs,
+} from "./state";
 import moment from "moment";
 import { formatEnum } from "../../lib/config";
-
-const relatedJobs = [1, 2, 3, 4];
+import type { Job } from "../../types/job";
 
 export default function JobDetail() {
   const { jobId } = useParams();
   const dispatch = useAppDispatch();
   const jobDetail = useAppSelector(selectJobDetail);
+  const relatedJobs = useAppSelector(selectRelatedJobs);
 
   useEffect(() => {
     if (!jobId) return;
@@ -28,6 +33,19 @@ export default function JobDetail() {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    jobService
+      .getJobs({
+        page: 1,
+        limit: 4,
+        companyId: jobDetail?.companyId,
+      })
+      .then((data) => {
+        dispatch(setRelatedJobs(data.list));
+      })
+      .catch((err) => console.log(err));
+  }, [jobDetail]);
 
   console.log("jobDetail:", jobDetail);
 
@@ -80,9 +98,9 @@ export default function JobDetail() {
                 get acquainted with other jobs of the company.
               </p>
               <div className="wrapper">
-                {/* {relatedJobs.map(() => (
-                  <JobCard />
-                ))} */}
+                {relatedJobs.map((job: Job) => (
+                  <JobCard job={job} />
+                ))}
               </div>
             </Box>
           )}
@@ -201,7 +219,7 @@ export default function JobDetail() {
               </div>
             </Box>
             {jobDetail?.company?.memberWebsite ? (
-              <a href={jobDetail?.company?.memberWebsite} target="blank">
+              <a href={jobDetail?.company?.memberWebsite} target="_blank">
                 <button>{jobDetail?.company?.memberNick}</button>
               </a>
             ) : (

@@ -81,7 +81,7 @@ export default function DetailHeader(props: DetailHeaderProps) {
             </div>
           </Box>
           <Box className="btns">
-            {!jobDetail.meApplied ? (
+            {!jobDetail?.meApplied ? (
               <button>Apply for Job</button>
             ) : (
               <button>{jobDetail?.meApplied.applicationStatus}</button>
