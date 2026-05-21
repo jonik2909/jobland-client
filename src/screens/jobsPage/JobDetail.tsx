@@ -3,36 +3,59 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GoogleIcon from "@mui/icons-material/Google";
 import JobCard from "../../components/card/JobCard";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import DetailHeader from "../../components/headers/DetailHeader";
+import { useEffect } from "react";
+import jobService from "../../services/JobService";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectJobDetail, setJobDetail } from "./state";
+import moment from "moment";
+import { formatEnum } from "../../lib/config";
 
 const relatedJobs = [1, 2, 3, 4];
 
 export default function JobDetail() {
+  const { jobId } = useParams();
+  const dispatch = useAppDispatch();
+  const jobDetail = useAppSelector(selectJobDetail);
+
+  useEffect(() => {
+    if (!jobId) return;
+    jobService
+      .getJob(jobId)
+      .then((data) => {
+        dispatch(setJobDetail(data));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log("jobDetail:", jobDetail);
+
   return (
     <div className="job-detail">
-      <DetailHeader isJob={true} />
+      <DetailHeader isJob={true} jobDetail={jobDetail} />
       <Container className="container">
         <Stack className="left">
           <Box className="info">
             <span>Job Description</span>
-            <p>
-              This is a sample job description. You will be responsible for
-              creating amazing React applications.
-            </p>
+            <p>{jobDetail?.jobDesc}</p>
           </Box>
           <Box className="info">
             <span>Key Responsibilities</span>
             <ul>
-              <li>Write clean code</li>
-              <li>Collaborate with the team</li>
+              {jobDetail?.jobRequirement
+                ?.split("\n")
+                .map((requirement: string) => (
+                  <li>{requirement}</li>
+                ))}
             </ul>
           </Box>
           <Box className="info">
             <span>Skill & Experience</span>
             <ul>
-              <li>3+ years of React</li>
-              <li>TypeScript expertise</li>
+              {jobDetail?.jobExpertise?.split("\n").map((expertise: string) => (
+                <li>{expertise}</li>
+              ))}
             </ul>
           </Box>
           <Box className="share-box">
@@ -71,35 +94,42 @@ export default function JobDetail() {
               <img src="/icons/calendar-blue.svg" alt="" />
               <div>
                 <strong>Data Posted:</strong>
-                <span>October 24, 2026</span>
+                <span>
+                  {moment(jobDetail?.createdAt).format("MMMM DD, YYYY")}
+                </span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/view.svg" alt="" />
               <div>
                 <strong>Job View:</strong>
-                <span>120 views</span>
+                <span>{jobDetail?.jobViews} views</span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/hourglass-blue.svg" alt="" />
               <div>
                 <strong>Deadline date: </strong>
-                <span>November 24, 2026</span>
+                <span>
+                  {moment(jobDetail?.jobDeadline).format("MMMM DD, YYYY")}
+                </span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/location-blue.svg" alt="" />
               <div>
                 <strong>Location: </strong>
-                <span>Uzbekistan, Tashkent</span>
+                <span>
+                  {" "}
+                  {jobDetail?.jobCountry}, {jobDetail?.jobCity}
+                </span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/user-blue.svg" alt="" />
               <div>
                 <strong>Category: </strong>
-                <span>Development</span>
+                <span>{formatEnum(jobDetail?.jobCategory)}</span>
               </div>
             </div>
 
@@ -107,14 +137,14 @@ export default function JobDetail() {
               <img src="/icons/dollar-blue.svg" alt="" />
               <div>
                 <strong>Rate: </strong>
-                <span>$20 / hour</span>
+                <span>${jobDetail?.jobHourRate} / hour</span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/salary-blue.svg" alt="" />
               <div>
                 <strong>Salary:</strong>
-                <span>$1000</span>
+                <span>${jobDetail?.jobSalary}</span>
               </div>
             </div>
 
@@ -123,7 +153,7 @@ export default function JobDetail() {
               <div>
                 <iframe
                   title="test"
-                  src={`https://www.google.com/maps?q=Tashkent&output=embed`}
+                  src={`https://www.google.com/maps?q=${jobDetail?.jobAddress}&output=embed`}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -148,8 +178,8 @@ export default function JobDetail() {
             <Box className="company-main-info">
               <img src={"/icons/default-user.svg"} alt="" />
               <div>
-                <span>TechCorp Inc.</span>
-                <Link to={`/company/1`}>
+                <span>{jobDetail?.company?.memberNick}</span>
+                <Link to={`/companies/${jobDetail?.companyId}`}>
                   <p>View company profile</p>
                 </Link>
               </div>
@@ -157,20 +187,26 @@ export default function JobDetail() {
             <Box className="company-detail">
               <div className="detail">
                 <strong>Company Name:</strong>
-                <span>TechCorp Inc.</span>
+                <span>{jobDetail?.company?.memberNick}</span>
               </div>
 
               <div className="detail">
                 <strong>Company size:</strong>
-                <span>100-500</span>
+                <span>{jobDetail?.company?.memberTeamSize || "-"}</span>
               </div>
 
               <div className="detail">
                 <strong>Phone:</strong>
-                <span>+998901234567</span>
+                <span>+{jobDetail?.company?.memberPhone}</span>
               </div>
             </Box>
-            <button>TechCorp Inc.</button>
+            {jobDetail?.company?.memberWebsite ? (
+              <a href={jobDetail?.company?.memberWebsite} target="blank">
+                <button>{jobDetail?.company?.memberNick}</button>
+              </a>
+            ) : (
+              <button>{jobDetail?.company?.memberNick}</button>
+            )}
           </Stack>
         </Stack>
       </Container>

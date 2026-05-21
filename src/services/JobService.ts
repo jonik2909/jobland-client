@@ -21,6 +21,17 @@ class JobService {
       throw err;
     }
   }
+
+  public async getJob(jobId: string): Promise<Job> {
+    try {
+      const response = await axios.get(`${this.path}/${jobId}`);
+
+      return response.data;
+    } catch (err) {
+      console.log("Error, getJob:", err);
+      throw err;
+    }
+  }
 }
 
 const jobService = new JobService();
