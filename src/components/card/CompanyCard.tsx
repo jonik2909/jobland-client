@@ -11,7 +11,7 @@ interface CompanyCardProps {
 export default function CompanyCard(props: CompanyCardProps) {
   const { company } = props;
   return (
-    <Link to={`/companies/1`}>
+    <Link to={`/companies/${company.id}`}>
       <Box className="company-card">
         {company.memberFeatured === MemberFeatured.YES && (
           <div className="featured">Featured</div>

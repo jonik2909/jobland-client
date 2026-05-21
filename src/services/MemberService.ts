@@ -21,6 +21,18 @@ class MemberService {
       throw err;
     }
   }
+
+  public async getMember(memberId: string): Promise<Member> {
+    try {
+      const response = await axios.get(`${this.path}/${memberId}`);
+      console.log("getMember:", response);
+
+      return response.data;
+    } catch (err) {
+      console.log("Error, getMember:", err);
+      throw err;
+    }
+  }
 }
 
 const memberService = new MemberService();

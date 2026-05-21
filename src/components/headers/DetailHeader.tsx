@@ -3,42 +3,57 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import type { Job } from "../../types/job";
 import moment from "moment";
 import { formatEnum, getImageUrl } from "../../lib/config";
+import { MemberType } from "../../types/enums/member.enum";
+import type { Member } from "../../types/member";
 
 interface DetailHeaderProps {
   isJob: boolean;
   jobDetail?: Job | null;
+  memberDetail?: Member | null;
 }
 
 export default function DetailHeader(props: DetailHeaderProps) {
-  const { isJob, jobDetail } = props;
+  const { isJob, jobDetail, memberDetail } = props;
   return (
     <Stack className="detail-header">
       {!isJob ? (
         <Container className="container">
-          <img src="/icons/default-user.svg" alt="" className="logo" />
+          <img
+            src={getImageUrl(memberDetail?.memberImage)}
+            alt=""
+            className="logo"
+          />
           <Box className="main-info">
-            <span className="job-title">John Doe</span>
+            <span className="job-title">{memberDetail?.memberNick}</span>
             <div className="main">
               <div>
-                <strong>Candidate</strong>
+                <strong>{memberDetail?.memberType}</strong>
               </div>
 
               <div>
                 <img src="/icons/clock.svg" alt="" />
-                <span>October 24, 2026</span>
+                <span>
+                  {moment(memberDetail?.createdAt).format("MMMM DD, YYYY")}
+                </span>
               </div>
               <div>
                 <img src="/icons/brifcase-gray.svg" alt="" />
-                <span>Development</span>
+                <span>{formatEnum(memberDetail?.memberCategory) || "-"}</span>
               </div>
             </div>
             <div className="badges">
-              <div>USER</div>
-              <div>$5000</div>
+              <div>{memberDetail?.memberType}</div>
+              {memberDetail?.memberType === MemberType.COMPANY ? (
+                <div>{memberDetail?.memberTeamSize || "-"}</div>
+              ) : (
+                <div>${memberDetail?.memberSalary || "-"}</div>
+              )}
             </div>
           </Box>
           <Box className="btns">
-            <button>Download CV</button>
+            {memberDetail?.memberType === MemberType.CANDIDATE && (
+              <button>Download CV</button>
+            )}
 
             <div>
               <BookmarkBorderOutlinedIcon />
