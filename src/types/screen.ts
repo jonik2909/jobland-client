@@ -16,6 +16,12 @@ export interface JobsPageState {
 }
 
 /** COMPANY PAGE **/
+export interface CompaniesPageState {
+  companies: TResponse<Member>;
+  companyDetail: Member | null;
+  companyJobs: Job[];
+}
+
 /** CANDIDANT PAGE **/
 /** MY PAGE **/
 /** COMPANY DASHBOARD **/

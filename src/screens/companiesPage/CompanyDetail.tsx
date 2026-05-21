@@ -21,8 +21,8 @@ export default function CompanyDetail() {
               get acquainted with other jobs of the company.
             </p>
             <div className="wrapper">
-              <JobCard />
-              <JobCard />
+              {/* <JobCard />
+              <JobCard /> */}
             </div>
           </Box>
         </Stack>
