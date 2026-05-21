@@ -64,14 +64,14 @@ const JobList = () => {
             </Box>
           </Stack>
           <Stack className="wrapper">
-            {jobs && jobs.length !== 0 ? (
+            {/* {jobs && jobs.length !== 0 ? (
               jobs.map(() => <JobCard />)
             ) : (
               <div className="no-data">
                 <InfoOutlinedIcon />
                 <span>No data found!</span>
               </div>
-            )}
+            )} */}
           </Stack>
           <Stack className="pagination-box">
             <Pagination color="primary" count={1} page={1} />

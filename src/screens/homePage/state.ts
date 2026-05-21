@@ -24,8 +24,8 @@ export const homePageSlice = createSlice({
     },
   },
   selectors: {
-    selectFeaturedJobs: (state) => state.featuredJobs,
-    selectTopCompanies: (state) => state.topCompanies,
+    selectFeaturedJobs: (state: HomePageState) => state.featuredJobs,
+    selectTopCompanies: (state: HomePageState) => state.topCompanies,
   },
 });
 

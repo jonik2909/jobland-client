@@ -57,9 +57,9 @@ export default function JobDetail() {
                 get acquainted with other jobs of the company.
               </p>
               <div className="wrapper">
-                {relatedJobs.map(() => (
+                {/* {relatedJobs.map(() => (
                   <JobCard />
-                ))}
+                ))} */}
               </div>
             </Box>
           )}
