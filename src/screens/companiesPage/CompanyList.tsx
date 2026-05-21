@@ -22,6 +22,8 @@ export default function CompanyList() {
   const dispatch = useAppDispatch();
   const companies = useAppSelector(selectCompanies);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [searchText, setSearchText] = useState<string>("");
+  const [filterName, setFilterName] = useState<string>("New");
   const [companiesInquiry, setCompaniesInquiry] = useState<MembersInquiry>({
     page: 1,
     limit: 6,
@@ -34,26 +36,60 @@ export default function CompanyList() {
       .getMembers(companiesInquiry)
       .then((data) => dispatch(setCompanies(data)))
       .catch((err) => console.log(err));
-  }, []);
+  }, [companiesInquiry]);
+
+  useEffect(() => {
+    if (searchText === "") {
+      setSearchText("");
+      setCompaniesInquiry({ ...companiesInquiry, search: "" });
+    }
+  }, [searchText]);
 
   const sortingClickHandler = (e: any) => {
     setAnchorEl(e.currentTarget);
   };
 
+  const sortingHandler = (sort: MemberSort) => {
+    setFilterName(sort === MemberSort.createdAt ? "New" : "Views");
+    setCompaniesInquiry({ ...companiesInquiry, sort: sort, page: 1 });
+    setAnchorEl(null);
+  };
+
+  const paginationHandler = (
+    _event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setCompaniesInquiry({ ...companiesInquiry, page: value });
+  };
+
+  const start = (companiesInquiry.page - 1) * companiesInquiry.limit + 1;
+  const end = Math.min(
+    companiesInquiry.page * companiesInquiry.limit,
+    companies.total,
+  );
+
   return (
     <div className="company-list">
       <OtherHeader />
       <Container className="container">
-        <Filter />
+        <Filter
+          companiesInquiry={companiesInquiry}
+          setCompaniesInquiry={setCompaniesInquiry}
+          setSearchText={setSearchText}
+        />
         <Stack className="result-box">
           <Stack className="top">
             <span className="result-count">
-              Showing <b>0 Companies</b> of <b>0</b> total
+              Showing{" "}
+              <b>
+                {start}-{end}
+              </b>{" "}
+              of <b>{companies.total}</b> companies
             </span>
             <Box className="result-filter">
               <div className="sort-box">
                 <div onClick={sortingClickHandler}>
-                  New <KeyboardArrowDownRoundedIcon />
+                  {filterName} <KeyboardArrowDownRoundedIcon />
                 </div>
                 <Menu
                   anchorEl={anchorEl}
@@ -67,10 +103,18 @@ export default function CompanyList() {
                     },
                   }}
                 >
-                  <MenuItem id={"new"} disableRipple>
+                  <MenuItem
+                    id={"new"}
+                    disableRipple
+                    onClick={() => sortingHandler(MemberSort.createdAt)}
+                  >
                     New
                   </MenuItem>
-                  <MenuItem id={"views"} disableRipple>
+                  <MenuItem
+                    id={"views"}
+                    disableRipple
+                    onClick={() => sortingHandler(MemberSort.memberViews)}
+                  >
                     Views
                   </MenuItem>
                 </Menu>
@@ -90,7 +134,12 @@ export default function CompanyList() {
             )}
           </Stack>
           <Stack className="pagination-box">
-            <Pagination color="primary" count={1} page={1} />
+            <Pagination
+              color="primary"
+              count={Math.ceil(companies.total / companiesInquiry.limit)}
+              page={companiesInquiry.page}
+              onChange={paginationHandler}
+            />
           </Stack>
         </Stack>
       </Container>
