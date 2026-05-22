@@ -1,74 +1,142 @@
 import { Stack, Box, Container } from "@mui/material";
 import DetailHeader from "../../components/headers/DetailHeader";
+import { useParams } from "react-router";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectCandidantDetail, setCandidantDetail } from "./state";
+import memberService from "../../services/MemberService";
+import { useEffect, useMemo } from "react";
+import { BackgroundType } from "../../types/enums/common.enum";
+import moment from "moment";
 
 export default function CandidantDetail() {
+  const { candidantId } = useParams();
+  const dispatch = useAppDispatch();
+  const candidantDetail = useAppSelector(selectCandidantDetail);
+
+  useEffect(() => {
+    if (!candidantId) return;
+    memberService
+      .getMember(candidantId)
+      .then((data) => {
+        dispatch(setCandidantDetail(data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const educations = useMemo(
+    () =>
+      candidantDetail?.membeBackgrounds?.filter(
+        (bg) => bg.backType === BackgroundType.EDUCATION,
+      ) ?? [],
+    [candidantDetail],
+  );
+  const experiences = useMemo(
+    () =>
+      candidantDetail?.membeBackgrounds?.filter(
+        (bg) => bg.backType === BackgroundType.EXPERIENCE,
+      ) ?? [],
+    [candidantDetail],
+  );
+  const awards = useMemo(
+    () =>
+      candidantDetail?.membeBackgrounds?.filter(
+        (bg) => bg.backType === BackgroundType.AWARD,
+      ) ?? [],
+    [candidantDetail],
+  );
   return (
     <div className="candidate-detail">
-      <DetailHeader isJob={false} />
+      <DetailHeader isJob={false} memberDetail={candidantDetail} />
       <Container className="container">
         <Stack className="left">
           <Box className="info">
             <span className="main-title">About Candidate</span>
             <p style={{ whiteSpace: "pre-line" }}>
-              Hello, I'm a passionate developer with extensive experience in
-              React.
+              {candidantDetail?.memberDesc ?? "no Description"}
             </p>
           </Box>
 
           <Box className="work-experience">
             <span className="main-title">Education</span>
-            <div className="experience-box">
-              <div className="left-box">
-                <div className="order-number red">1</div>
-              </div>
-              <div className="right-box">
-                <div className="company-box">
-                  <div className="company-info">
-                    <strong>MIT</strong>
+            {educations.length > 0 ? (
+              educations.map((edu, index) => (
+                <div className="experience-box" key={edu.id}>
+                  <div className="left-box">
+                    <div className="order-number red">{index + 1}</div>
                   </div>
-                  <div className="year red">2016 - 2020</div>
+                  <div className="right-box">
+                    <div className="company-box">
+                      <div className="company-info">
+                        <strong>{edu.backName}</strong>
+                      </div>
+                      <div className="year red">
+                        {moment(edu.backStart).format("YYYY")} -{" "}
+                        {moment(edu.backEnd).format("YYYY")}
+                      </div>
+                    </div>
+                    <p style={{ whiteSpace: "pre-line" }}>{edu.backDesc}</p>
+                  </div>
                 </div>
-                <p style={{ whiteSpace: "pre-line" }}>Computer Science BSc</p>
-              </div>
-            </div>
+              ))
+            ) : (
+              <p className="no-data-text">No education info</p>
+            )}
           </Box>
 
           <Box className="work-experience">
             <span className="main-title">Work & Experience</span>
-            <div className="experience-box">
-              <div className="left-box">
-                <div className="order-number blue">1</div>
-              </div>
-              <div className="right-box">
-                <div className="company-box">
-                  <div className="company-info">
-                    <strong>Google</strong>
+            {experiences.length > 0 ? (
+              experiences.map((exp, index) => (
+                <div className="experience-box" key={exp.id}>
+                  <div className="left-box">
+                    <div className="order-number blue">{index + 1}</div>
                   </div>
-                  <div className="year blue">2020 - 2024</div>
+                  <div className="right-box">
+                    <div className="company-box">
+                      <div className="company-info">
+                        <strong>{exp.backName}</strong>
+                      </div>
+                      <div className="year blue">
+                        {moment(exp.backStart).format("YYYY")} -{" "}
+                        {moment(exp.backEnd).format("YYYY")}
+                      </div>
+                    </div>
+                    <p style={{ whiteSpace: "pre-line" }}>{exp.backDesc}</p>
+                  </div>
                 </div>
-                <p style={{ whiteSpace: "pre-line" }}>Software Engineer II</p>
-              </div>
-            </div>
+              ))
+            ) : (
+              <p className="no-data-text">No experience info</p>
+            )}
           </Box>
 
           <Box className="work-experience">
             <span className="main-title">Awards</span>
-            <div className="experience-box">
-              <div className="left-box">
-                <div className="order-number yellow">1</div>
-              </div>
-              <div className="right-box">
-                <div className="company-box">
-                  <div className="company-info">
-                    <strong>Best Developer</strong>
+            {awards.length > 0 ? (
+              awards.map((award, index) => (
+                <div className="experience-box" key={award.id}>
+                  <div className="left-box">
+                    <div className="order-number yellow">{index + 1}</div>
                   </div>
-                  <div className="year yellow">2022</div>
+                  <div className="right-box">
+                    <div className="company-box">
+                      <div className="company-info">
+                        <strong>{award.backName}</strong>
+                      </div>
+                      <div className="year yellow">
+                        {moment(award.backStart).format("YYYY")} -{" "}
+                        {moment(award.backEnd).format("YYYY")}
+                      </div>
+                    </div>
+                    <p style={{ whiteSpace: "pre-line" }}>{award.backDesc}</p>
+                  </div>
                 </div>
-                <p style={{ whiteSpace: "pre-line" }}>
-                  Awarded by Tech Magazine
-                </p>
-              </div>
-            </div>
+              ))
+            ) : (
+              <p className="no-data-text">No awards info</p>
+            )}
           </Box>
         </Stack>
 
@@ -78,14 +146,14 @@ export default function CandidantDetail() {
               <img src="/icons/calendar-blue.svg" alt="" />
               <div>
                 <strong>Experience</strong>
-                <span>4 years</span>
+                <span>{candidantDetail?.memberExperience || "-"} years</span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/hourglass-blue.svg" alt="" />
               <div>
                 <strong>Age </strong>
-                <span>26 years</span>
+                <span>{candidantDetail?.memberAge} years</span>
               </div>
             </div>
 
@@ -93,21 +161,21 @@ export default function CandidantDetail() {
               <img src="/icons/salary-blue.svg" alt="" />
               <div>
                 <strong>Expected Salary </strong>
-                <span>$120k</span>
+                <span>${candidantDetail?.memberSalary || "-"}</span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/language-blue.svg" alt="" />
               <div>
                 <strong>Language </strong>
-                <span>English</span>
+                <span>{candidantDetail?.memberLanguage ?? "-"}</span>
               </div>
             </div>
             <div className="info-box">
               <img src="/icons/view.svg" alt="" />
               <div>
                 <strong>Candidate View:</strong>
-                <span>1,234 views</span>
+                <span>{candidantDetail?.memberViews} views</span>
               </div>
             </div>
 
