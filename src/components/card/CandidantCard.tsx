@@ -1,41 +1,52 @@
-import { Box } from '@mui/material';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import { Link } from 'react-router';
+import { Box } from "@mui/material";
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import { Link } from "react-router";
+import type { Member } from "../../types/member";
+import { formatEnum, getImageUrl } from "../../lib/config";
 
-export default function CandidantCard() {
-	return (
-		<Link to={`/candidates/1`}>
-			<Box className="candidant-card">
-				<img src="/icons/default-user.svg" alt="" className="user-img" />
-				<div className="main-info">
-					<span className="job-title">Jonibek Buronov</span>
-					<div className="main">
-						<div>
-							<strong>Software Engineering</strong>
-						</div>
+interface CandidantCardProps {
+  candidant: Member;
+}
 
-						<div>
-							<img src="/icons/job-money.svg" alt="" />
-							<span>$120</span>
-						</div>
+export default function CandidantCard(props: CandidantCardProps) {
+  const { candidant } = props;
+  return (
+    <Link to={`/candidates/${candidant.id}`}>
+      <Box className="candidant-card">
+        <img
+          src={getImageUrl(candidant.memberImage)}
+          alt=""
+          className="user-img"
+        />
+        <div className="main-info">
+          <span className="job-title">{candidant.memberNick}</span>
+          <div className="main">
+            <div>
+              <strong>{formatEnum(candidant.memberCategory) || "-"}</strong>
+            </div>
 
-						<div>
-							<img src="/icons/location.svg" alt="" />
-							<span>Tashkent, Uzbekistan</span>
-						</div>
-					</div>
-					<div className="badges">
-						<div>Candidate</div>
-						<div>3 y</div>
-					</div>
-				</div>
-				<div className="view-info">
-					<div className="bookmark">
-						<BookmarkBorderOutlinedIcon />
-					</div>
-					<button>View Profile</button>
-				</div>
-			</Box>
-		</Link>
-	);
+            <div>
+              <img src="/icons/job-money.svg" alt="" />
+              <span>${candidant.memberHourRate}</span>
+            </div>
+
+            <div>
+              <img src="/icons/location.svg" alt="" />
+              <span>{candidant.memberCountry || "-"}</span>
+            </div>
+          </div>
+          <div className="badges">
+            <div>{candidant.memberType}</div>
+            <div>{candidant.memberExperience || "-"}</div>
+          </div>
+        </div>
+        <div className="view-info">
+          <div className="bookmark">
+            <BookmarkBorderOutlinedIcon />
+          </div>
+          <button>View Profile</button>
+        </div>
+      </Box>
+    </Link>
+  );
 }
