@@ -3,6 +3,7 @@ import { createLogger } from "redux-logger";
 import homePageReducer from "./screens/homePage/state";
 import jobsPageReducer from "./screens/jobsPage/state";
 import companiesPageReducer from "./screens/companiesPage/state";
+import candidatesPageReducer from "./screens/candidatesPage/state";
 
 const logger = createLogger();
 
@@ -11,6 +12,7 @@ export const store = configureStore({
     homePage: homePageReducer,
     jobsPage: jobsPageReducer,
     companiesPage: companiesPageReducer,
+    candidatesPage: candidatesPageReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

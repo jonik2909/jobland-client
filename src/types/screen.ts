@@ -23,6 +23,11 @@ export interface CompaniesPageState {
 }
 
 /** CANDIDANT PAGE **/
+export interface CandidatesPageState {
+  candidants: TResponse<Member>;
+  candidantDetail: Member | null;
+}
+
 /** MY PAGE **/
 /** COMPANY DASHBOARD **/
 /** ADMIN DASHBOARD **/
