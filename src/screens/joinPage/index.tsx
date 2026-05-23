@@ -4,8 +4,11 @@ import {
   VisibilityOff,
   BusinessCenter,
   Person,
+  Try,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router";
+import memberService from "../../services/MemberService";
+import { errorToast } from "../../lib/Toastify";
 
 function useQuery() {
   const { search } = useLocation();
@@ -34,6 +37,16 @@ export default function JoinPage() {
     } else {
       setPositionChange("sign-in-mode");
       navigate("/join");
+    }
+  };
+
+  const loginHandler = async () => {
+    try {
+      const result = await memberService.login(memberNick, memberPassword);
+      console.log("result:", result);
+    } catch (err) {
+      console.log("Error, loginHandler:", err);
+      errorToast(err);
     }
   };
 
@@ -67,7 +80,9 @@ export default function JoinPage() {
                     paddingLeft: "10px",
                   }}
                   value={memberPassword}
-                  onChange={(e) => setMemberPassword(e.target.value)}
+                  onChange={(e) => {
+                    setMemberPassword(e.target.value);
+                  }}
                 />
 
                 <span
@@ -77,7 +92,13 @@ export default function JoinPage() {
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </span>
               </div>
-              <button className="btn">Sign in</button>
+              <button
+                className="btn"
+                onClick={loginHandler}
+                disabled={!memberNick || !memberPassword}
+              >
+                Sign in
+              </button>
             </div>
 
             <div className="sign-up-form auth-form">

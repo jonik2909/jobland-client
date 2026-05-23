@@ -15,11 +15,13 @@ import CompanyProfile from "./screens/companyDashboard/CompanyProfile";
 import ManageJobs from "./screens/companyDashboard/ManageJobs";
 import NewJob from "./screens/companyDashboard/NewJob";
 import JobList from "./screens/adminDashboard/JobList";
+import { ToastContainer } from "react-toastify";
 import "./styles/index.scss";
 
 function App() {
   return (
     <>
+      <ToastContainer />
       <Navbar />
       <Routes>
         <Route index element={<HomePage />} />

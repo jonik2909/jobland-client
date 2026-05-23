@@ -33,6 +33,23 @@ class MemberService {
       throw err;
     }
   }
+
+  public async login(nick: string, password: string) {
+    try {
+      const response = await axios.post(`${this.path}/login`, {
+        memberNick: nick,
+        memberPassword: password,
+      });
+      console.log("login:", response);
+
+      // TODO: TOKEN & COOKIES & MEMBER DATA & LOCAL STORAGE
+
+      return response.data;
+    } catch (err) {
+      console.log("Error, login:", err);
+      throw err;
+    }
+  }
 }
 
 const memberService = new MemberService();
