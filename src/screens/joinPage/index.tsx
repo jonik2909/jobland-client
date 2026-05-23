@@ -9,6 +9,7 @@ import {
 import { useNavigate, useLocation } from "react-router";
 import memberService from "../../services/MemberService";
 import { errorToast } from "../../lib/Toastify";
+import type { Member } from "../../types/member";
 
 function useQuery() {
   const { search } = useLocation();
@@ -42,8 +43,13 @@ export default function JoinPage() {
 
   const loginHandler = async () => {
     try {
-      const result = await memberService.login(memberNick, memberPassword);
+      const result: Member = await memberService.login(
+        memberNick,
+        memberPassword,
+      );
       console.log("result:", result);
+
+      // REAL TIME CONTEXT
     } catch (err) {
       console.log("Error, loginHandler:", err);
       errorToast(err);

@@ -2,6 +2,7 @@ import { serverApi } from "../lib/config";
 import axios from "axios";
 import type { TResponse } from "../types/response";
 import type { Member, MembersInquiry } from "../types/member";
+import Cookies from "universal-cookie";
 
 class MemberService {
   private readonly path: string;
@@ -42,7 +43,12 @@ class MemberService {
       });
       console.log("login:", response);
 
-      // TODO: TOKEN & COOKIES & MEMBER DATA & LOCAL STORAGE
+      const member: Member = response.data.member;
+      const token: string = response.data.token;
+
+      const cookies = new Cookies();
+      cookies.set("accessToken", token);
+      localStorage.setItem("memberData", JSON.stringify(member));
 
       return response.data;
     } catch (err) {
