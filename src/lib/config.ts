@@ -27,3 +27,15 @@ export enum AppErrors {
   LOGIN_REQUIRED = "Please login first!",
   IMG_FORMAT = "Only Images with jpg, jpeg, png, webp format allowed!",
 }
+
+export const validateDataHandler = (data: any): boolean => {
+  return Object.keys(data).every((key) => {
+    const value = data[key];
+    return (
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      value !== "select"
+    );
+  });
+};

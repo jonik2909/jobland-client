@@ -50,3 +50,21 @@ export interface MemberSignup {
   memberPhone: string;
   memberType: MemberType;
 }
+
+export interface MemberUpdate {
+  memberNick?: string;
+  memberPhone?: string;
+  memberAge?: number;
+  memberEmail?: string;
+  memberImage?: string;
+  memberWebsite?: string;
+  memberTeamSize?: string;
+  memberCountry?: Country;
+  memberCity?: string;
+  memberDesc?: string;
+  memberSalary?: string;
+  memberExperience?: string;
+  memberLanguage?: string;
+  memberHourRate?: number;
+  memberCategory?: CategoryType;
+}
