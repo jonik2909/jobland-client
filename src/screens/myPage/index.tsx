@@ -1,24 +1,43 @@
 import { Box, Stack } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyProfile from "./MyProfile";
 import AppliedJobs from "./AppliedJobs";
 import MyBackground from "./MyBackground";
+import { useGlobals } from "../../hooks/useGlobals";
+import { errorToast } from "../../lib/Toastify";
+import { AppErrors } from "../../lib/config";
+import { useNavigate } from "react-router";
 
 const MyPage = () => {
-  const [tab, setTab] = useState('profile');
+  const { authMember } = useGlobals();
+  const navigate = useNavigate();
+  const [tab, setTab] = useState("profile");
 
+  useEffect(() => {
+    if (!authMember?.id) {
+      errorToast(AppErrors.LOGIN_REQUIRED);
+      navigate("/");
+    }
+  }, []);
 
   const changeTabHandler = (tab: string) => {
     setTab(tab);
-  }
-
-
+  };
 
   return (
     <div className="my-page">
       <Stack className="tab-menu">
-        <Box className={`tab ${tab === 'profile' ? 'active' : ''}`} onClick={() => changeTabHandler('profile')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <Box
+          className={`tab ${tab === "profile" ? "active" : ""}`}
+          onClick={() => changeTabHandler("profile")}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+          >
             <g clipPath="url(#clip0_56_826)">
               <path
                 d="M17.9543 15.4232C17.8752 15.0431 17.5028 14.7991 17.1226 14.8782C16.7424 14.9573 16.4984 15.3297 16.5776 15.7099C16.6232 15.9288 16.5689 16.1533 16.4287 16.3257C16.3474 16.4256 16.1664 16.5931 15.8662 16.5931H12.6913C12.303 16.5931 11.9882 16.9079 11.9882 17.2963C11.9882 17.6846 12.303 17.9994 12.6913 17.9994H15.8662C16.5106 17.9994 17.1132 17.7127 17.5197 17.213C17.9281 16.7107 18.0866 16.0584 17.9543 15.4232Z"
@@ -38,10 +57,16 @@ const MyPage = () => {
           <span>Profile</span>
         </Box>
         <Box
-          className={`tab ${tab === 'applied-jobs' ? 'active' : ''}`}
-          onClick={() => changeTabHandler('applied-jobs')}
+          className={`tab ${tab === "applied-jobs" ? "active" : ""}`}
+          onClick={() => changeTabHandler("applied-jobs")}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
             <g clipPath="url(#clip0_56_3960)">
               <path
                 d="M19.4141 4.70605H14.1162V3.54168C14.1162 2.23711 13.0548 1.17578 11.7503 1.17578H8.24973C6.9452 1.17578 5.88383 2.23711 5.88383 3.54168V4.70605H0.585938C0.262344 4.70605 0 4.9684 0 5.29199V15.9365C0 17.5277 1.29457 18.8223 2.88574 18.8223H17.1143C18.7054 18.8223 20 17.5277 20 15.9365V5.29199C20 4.9684 19.7377 4.70605 19.4141 4.70605ZM11.3295 12.3525C11.3295 13.0856 10.733 13.682 10 13.682C9.26695 13.682 8.67051 13.0856 8.67051 12.3525V11.023H11.3295V12.3525ZM11.9154 9.85117H8.08457C7.76098 9.85117 7.49863 10.1135 7.49863 10.4371V11.5014C4.09129 10.7619 1.53703 8.55184 1.2084 5.87793H18.7916C18.4629 8.55184 15.9087 10.7619 12.5014 11.5015V10.4371C12.5014 10.1135 12.239 9.85117 11.9154 9.85117ZM7.05566 3.54168C7.05566 2.88328 7.59133 2.34766 8.24969 2.34766H11.7503C12.4086 2.34766 12.9443 2.88328 12.9443 3.54168V4.70605H7.05562V3.54168H7.05566ZM18.8281 15.9365C18.8281 16.8816 18.0593 17.6504 17.1143 17.6504H2.88574C1.94074 17.6504 1.17188 16.8816 1.17188 15.9365V8.89957C1.64492 9.57602 2.25484 10.2007 2.99168 10.7533C4.26852 11.7109 5.8273 12.3757 7.52379 12.7037C7.69512 13.9172 8.73996 14.8539 10 14.8539C11.26 14.8539 12.3049 13.9172 12.4762 12.7037C14.1727 12.3757 15.7314 11.7109 17.0083 10.7533C17.7452 10.2007 18.3551 9.57598 18.8281 8.89957V15.9365Z"
@@ -57,10 +82,16 @@ const MyPage = () => {
           <span>Applied Jobs</span>
         </Box>
         <Box
-          className={`tab ${tab === 'my-background' ? 'active' : ''}`}
-          onClick={() => changeTabHandler('my-background')}
+          className={`tab ${tab === "my-background" ? "active" : ""}`}
+          onClick={() => changeTabHandler("my-background")}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
             <g clipPath="url(#clip0_56_3963)">
               <path
                 d="M16.1721 5.81055C16.3878 5.81055 16.5628 5.63566 16.5628 5.41992V1.17188C16.5628 0.525703 16.0371 0 15.3909 0H1.17212C0.525948 0 0.000244141 0.525703 0.000244141 1.17188V18.8281C0.000244141 19.4743 0.525948 20 1.17212 20H15.3909C16.0371 20 16.5628 19.4743 16.5628 18.8281V15.9503C16.5628 15.7346 16.3878 15.5597 16.1721 15.5597C15.9564 15.5597 15.7815 15.7346 15.7815 15.9503V18.8281C15.7815 19.0435 15.6063 19.2188 15.3909 19.2188H1.17212C0.956729 19.2188 0.781495 19.0435 0.781495 18.8281V1.17188C0.781495 0.956484 0.956729 0.78125 1.17212 0.78125H15.3909C15.6063 0.78125 15.7815 0.956484 15.7815 1.17188V5.41992C15.7815 5.63566 15.9564 5.81055 16.1721 5.81055Z"
@@ -112,8 +143,14 @@ const MyPage = () => {
           <span>My Background</span>
         </Box>
 
-        <Box className={`tab ${tab === 'logout' ? 'active' : ''}`} >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <Box className={`tab ${tab === "logout" ? "active" : ""}`}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
             <g clipPath="url(#clip0_56_4015)">
               <path
                 d="M19.7525 9.52268L17.6126 8.01401C17.2248 7.74069 16.6889 8.01901 16.6889 8.49291V9.41565H6.41392C6.09032 9.41565 5.82794 9.67799 5.82794 10.0016C5.82794 10.3253 6.09032 10.5876 6.41392 10.5876H16.6888V11.5103C16.6888 11.9873 17.2276 12.2604 17.6124 11.9892L19.7524 10.4805C20.0792 10.2503 20.0858 9.75815 19.7525 9.52268Z"
@@ -134,11 +171,9 @@ const MyPage = () => {
         </Box>
       </Stack>
 
-      {tab === 'profile' && <MyProfile />}
-      {tab === 'applied-jobs' && <AppliedJobs />}
-      {tab === 'my-background' && <MyBackground />}
-
-
+      {tab === "profile" && <MyProfile />}
+      {tab === "applied-jobs" && <AppliedJobs />}
+      {tab === "my-background" && <MyBackground />}
     </div>
   );
 };

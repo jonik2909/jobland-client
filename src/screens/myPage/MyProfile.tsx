@@ -1,6 +1,26 @@
 import { Stack, Box, Button } from "@mui/material";
+import { useRef, useState } from "react";
+import { errorToast } from "../../lib/Toastify";
+import { AppErrors } from "../../lib/config";
 
 export default function MyProfile() {
+  const fileInputRef = useRef(null);
+  const [imagePreview, setImagePreview] = useState("/icons/default-user.svg");
+
+  const imageChangeHandler = (e: any) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        errorToast(AppErrors.IMG_FORMAT);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <Stack className="tab-content">
       <span className="main-title">My Profile</span>
@@ -10,13 +30,15 @@ export default function MyProfile() {
           <Stack className="wrap">
             <span className="title">My Profile</span>
             <Box className="avatar-box">
-              <img src="/icons/default-user.svg" alt="avatar" />
+              <img src={imagePreview} alt="avatar" />
               <div>
-                <button>
+                <button onClick={() => fileInputRef.current?.click()}>
                   <input
+                    ref={fileInputRef}
                     type="file"
                     hidden
-                    accept="image/jpg, image/jpeg, image/png"
+                    accept="image/jpg, image/jpeg, image/png, image/webp"
+                    onChange={imageChangeHandler}
                   />
                   Browse Image
                 </button>

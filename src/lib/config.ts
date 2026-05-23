@@ -22,3 +22,8 @@ export function getHeaders() {
   console.log("token:", token);
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
+
+export enum AppErrors {
+  LOGIN_REQUIRED = "Please login first!",
+  IMG_FORMAT = "Only Images with jpg, jpeg, png, webp format allowed!",
+}
