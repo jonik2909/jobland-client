@@ -10,6 +10,7 @@ import { useNavigate, useLocation } from "react-router";
 import memberService from "../../services/MemberService";
 import { errorToast } from "../../lib/Toastify";
 import type { Member } from "../../types/member";
+import { MemberType } from "../../types/enums/member.enum";
 
 function useQuery() {
   const { search } = useLocation();
@@ -24,6 +25,7 @@ export default function JoinPage() {
   const [memberNick, setMemberNick] = useState("");
   const [memberPassword, setMemberPassword] = useState("");
   const [memberPhone, setMemberPhone] = useState("");
+  const [memberType, setMemberType] = useState(MemberType.CANDIDATE);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [positionChange, setPositionChange] = useState(
@@ -52,6 +54,29 @@ export default function JoinPage() {
       // REAL TIME CONTEXT
     } catch (err) {
       console.log("Error, loginHandler:", err);
+      errorToast(err);
+    }
+  };
+
+  const signupHandler = async () => {
+    try {
+      console.log("signupHandler");
+      console.log("memberNick:", memberNick);
+      console.log("memberPassword:", memberPassword);
+      console.log("memberPhone:", memberPhone);
+      console.log("memberType:", memberType);
+
+      const result: Member = await memberService.signup({
+        memberNick,
+        memberPassword,
+        memberPhone,
+        memberType,
+      });
+      console.log("result:", result);
+
+      // REAL TIME CONTEXT
+    } catch (err) {
+      console.log("Error, signupHandler:", err);
       errorToast(err);
     }
   };
@@ -110,10 +135,18 @@ export default function JoinPage() {
             <div className="sign-up-form auth-form">
               <h2 className="title">Register </h2>
               <div className="options-box">
-                <div className={"active"}>
+                <div
+                  className={
+                    memberType === MemberType.CANDIDATE ? "active" : ""
+                  }
+                  onClick={() => setMemberType(MemberType.CANDIDATE)}
+                >
                   <Person /> Candidate
                 </div>
-                <div>
+                <div
+                  className={memberType === MemberType.COMPANY ? "active" : ""}
+                  onClick={() => setMemberType(MemberType.COMPANY)}
+                >
                   <BusinessCenter />
                   Company
                 </div>
@@ -164,7 +197,13 @@ export default function JoinPage() {
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </span>
               </div>
-              <button className="btn">Sign up</button>
+              <button
+                className="btn"
+                disabled={!memberNick || !memberPassword || !memberPhone}
+                onClick={signupHandler}
+              >
+                Sign up
+              </button>
             </div>
           </div>
         </div>

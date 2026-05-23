@@ -43,3 +43,10 @@ export interface MembersInquiry {
   memberFeatured?: MemberFeatured;
   search?: string;
 }
+
+export interface MemberSignup {
+  memberNick: string;
+  memberPassword: string;
+  memberPhone: string;
+  memberType: MemberType;
+}

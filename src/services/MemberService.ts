@@ -1,7 +1,7 @@
 import { serverApi } from "../lib/config";
 import axios from "axios";
 import type { TResponse } from "../types/response";
-import type { Member, MembersInquiry } from "../types/member";
+import type { Member, MemberSignup, MembersInquiry } from "../types/member";
 import Cookies from "universal-cookie";
 
 class MemberService {
@@ -35,7 +35,7 @@ class MemberService {
     }
   }
 
-  public async login(nick: string, password: string) {
+  public async login(nick: string, password: string): Promise<Member> {
     try {
       const response = await axios.post(`${this.path}/login`, {
         memberNick: nick,
@@ -50,9 +50,28 @@ class MemberService {
       cookies.set("accessToken", token);
       localStorage.setItem("memberData", JSON.stringify(member));
 
-      return response.data;
+      return response.data.member;
     } catch (err) {
       console.log("Error, login:", err);
+      throw err;
+    }
+  }
+
+  public async signup(data: MemberSignup): Promise<Member> {
+    try {
+      const response = await axios.post(`${this.path}/signup`, data);
+      console.log("signup:", response);
+
+      const member: Member = response.data.member;
+      const token: string = response.data.token;
+
+      const cookies = new Cookies();
+      cookies.set("accessToken", token);
+      localStorage.setItem("memberData", JSON.stringify(member));
+
+      return response.data.member;
+    } catch (err) {
+      console.log("Error, signup:", err);
       throw err;
     }
   }
