@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useGlobals } from "../../hooks/useGlobals";
 import { getImageUrl } from "../../lib/config";
 import Cookies from "universal-cookie";
+import { MemberType } from "../../types/enums/member.enum";
 
 export default function Navbar() {
   const { authMember, setAuthMember } = useGlobals();
@@ -82,7 +83,20 @@ export default function Navbar() {
                 },
               }}
             >
-              <MenuItem onClick={handleClose}>My Page</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  if (authMember.memberType === MemberType.COMPANY) {
+                    navigate("/company/dashboard");
+                  } else if (authMember.memberType === MemberType.ADMIN) {
+                    navigate("/admin/dashboard");
+                  } else {
+                    navigate("/my-page");
+                  }
+                }}
+              >
+                My Page
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   handleClose();
