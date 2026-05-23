@@ -1,11 +1,12 @@
 import { Badge, Box, Container, Menu, MenuItem, Stack } from "@mui/material";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 
 export default function Navbar() {
-  const authMember = true;
+  const authMember = false;
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -75,8 +76,15 @@ export default function Navbar() {
           </Stack>
         ) : (
           <Stack className="login-section">
-            <button className="reg-btn">Register</button>
-            <button className="login-btn">Login</button>
+            <button
+              className="reg-btn"
+              onClick={() => navigate("/join?register=true")}
+            >
+              Register
+            </button>
+            <button className="login-btn" onClick={() => navigate("/join")}>
+              Login
+            </button>
           </Stack>
         )}
       </Container>
