@@ -18,6 +18,8 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  console.log("name:", name);
+
   return (
     <div className="navbar">
       <Container className="container">
