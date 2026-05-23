@@ -5,9 +5,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 import { useGlobals } from "../../hooks/useGlobals";
 import { getImageUrl } from "../../lib/config";
+import Cookies from "universal-cookie";
 
 export default function Navbar() {
-  const { authMember } = useGlobals();
+  const { authMember, setAuthMember } = useGlobals();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -18,6 +19,13 @@ export default function Navbar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const logoutHandler = () => {
+    const cookies = new Cookies();
+    cookies.remove("accessToken");
+    localStorage.removeItem("memberData");
+    setAuthMember(null);
   };
 
   console.log("+authMember:", authMember);
@@ -75,7 +83,14 @@ export default function Navbar() {
               }}
             >
               <MenuItem onClick={handleClose}>My Page</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  logoutHandler();
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </Stack>
         ) : (
