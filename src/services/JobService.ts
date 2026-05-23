@@ -1,4 +1,4 @@
-import { serverApi } from "../lib/config";
+import { getHeaders, serverApi } from "../lib/config";
 import type { Job, JobsInquiry } from "../types/job";
 import axios from "axios";
 import type { TResponse } from "../types/response";
@@ -24,7 +24,9 @@ class JobService {
 
   public async getJob(jobId: string): Promise<Job> {
     try {
-      const response = await axios.get(`${this.path}/${jobId}`);
+      const response = await axios.get(`${this.path}/${jobId}`, {
+        headers: { ...getHeaders() },
+      });
 
       return response.data;
     } catch (err) {

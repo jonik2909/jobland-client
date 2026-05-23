@@ -1,4 +1,4 @@
-import { serverApi } from "../lib/config";
+import { getHeaders, serverApi } from "../lib/config";
 import axios from "axios";
 import type { TResponse } from "../types/response";
 import type { Member, MemberSignup, MembersInquiry } from "../types/member";
@@ -25,7 +25,9 @@ class MemberService {
 
   public async getMember(memberId: string): Promise<Member> {
     try {
-      const response = await axios.get(`${this.path}/${memberId}`);
+      const response = await axios.get(`${this.path}/${memberId}`, {
+        headers: { ...getHeaders() },
+      });
       console.log("getMember:", response);
 
       return response.data;
