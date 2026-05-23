@@ -26,6 +26,7 @@ export function getHeaders() {
 export enum AppErrors {
   LOGIN_REQUIRED = "Please login first!",
   IMG_FORMAT = "Only Images with jpg, jpeg, png, webp format allowed!",
+  INPUT_ERR = "Please fulfill all inputs!",
 }
 
 export const validateDataHandler = (data: any): boolean => {

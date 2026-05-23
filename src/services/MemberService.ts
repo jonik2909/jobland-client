@@ -1,7 +1,12 @@
 import { getHeaders, serverApi } from "../lib/config";
 import axios from "axios";
 import type { TResponse } from "../types/response";
-import type { Member, MemberSignup, MembersInquiry } from "../types/member";
+import type {
+  Member,
+  MemberSignup,
+  MembersInquiry,
+  MemberUpdate,
+} from "../types/member";
 import Cookies from "universal-cookie";
 
 class MemberService {
@@ -74,6 +79,23 @@ class MemberService {
       return response.data.member;
     } catch (err) {
       console.log("Error, signup:", err);
+      throw err;
+    }
+  }
+
+  public async updateMember(data: MemberUpdate): Promise<Member> {
+    try {
+      const response = await axios.post(`${this.path}/update`, data, {
+        headers: { ...getHeaders() },
+      });
+      console.log("updateMember:", response);
+
+      const member = response.data;
+      localStorage.setItem("memberData", JSON.stringify(member));
+
+      return member;
+    } catch (err) {
+      console.log("Error, updateMember:", err);
       throw err;
     }
   }

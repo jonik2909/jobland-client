@@ -1,16 +1,24 @@
 import { Stack, Box, Button } from "@mui/material";
 import { useRef, useState } from "react";
-import { errorToast } from "../../lib/Toastify";
-import { AppErrors, formatEnum, validateDataHandler } from "../../lib/config";
+import { errorToast, successToast } from "../../lib/Toastify";
+import {
+  AppErrors,
+  formatEnum,
+  getImageUrl,
+  validateDataHandler,
+} from "../../lib/config";
 import { CategoryType, Country } from "../../types/enums/common.enum";
 import type { MemberUpdate } from "../../types/member";
 import { useGlobals } from "../../hooks/useGlobals";
 import uploadService from "../../services/UploadService";
+import memberService from "../../services/MemberService";
 
 export default function MyProfile() {
-  const { authMember } = useGlobals();
+  const { authMember, setAuthMember } = useGlobals();
   const fileInputRef = useRef(null);
-  const [imagePreview, setImagePreview] = useState("/icons/default-user.svg");
+  const [imagePreview, setImagePreview] = useState(
+    getImageUrl(authMember?.memberImage),
+  );
   const [file, setFile] = useState<File | null>(null);
   const [updateInput, setUpdateInput] = useState<MemberUpdate>({
     memberNick: authMember?.memberNick || "",
@@ -51,24 +59,24 @@ export default function MyProfile() {
 
   const updateMemberHandler = async () => {
     try {
-      console.log("update member process");
-
       if (file) {
         const imagePath = await uploadService.uploadImage("members", file);
         updateInput.memberImage = imagePath;
       }
 
       const isValid = validateDataHandler(updateInput);
-      console.log("isValid:", isValid, updateInput);
+      if (!isValid) throw new Error(AppErrors.INPUT_ERR);
 
-      // update member process
+      const member = await memberService.updateMember(updateInput);
+      setAuthMember(member);
+
+      successToast("Updated Successfully!");
     } catch (err) {
       console.log("Error, updateMemberHandler:", err);
       errorToast(err);
     }
   };
 
-  console.log("updateInput:", updateInput);
   return (
     <Stack className="tab-content">
       <span className="main-title">My Profile</span>
