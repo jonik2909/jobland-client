@@ -5,6 +5,7 @@ import { AppErrors, formatEnum, validateDataHandler } from "../../lib/config";
 import { CategoryType, Country } from "../../types/enums/common.enum";
 import type { MemberUpdate } from "../../types/member";
 import { useGlobals } from "../../hooks/useGlobals";
+import uploadService from "../../services/UploadService";
 
 export default function MyProfile() {
   const { authMember } = useGlobals();
@@ -53,11 +54,12 @@ export default function MyProfile() {
       console.log("update member process");
 
       if (file) {
-        // image upload process
+        const imagePath = await uploadService.uploadImage("members", file);
+        updateInput.memberImage = imagePath;
       }
 
       const isValid = validateDataHandler(updateInput);
-      console.log("isValid:", isValid);
+      console.log("isValid:", isValid, updateInput);
 
       // update member process
     } catch (err) {
