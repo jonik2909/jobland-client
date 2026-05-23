@@ -3,9 +3,11 @@ import { NavLink, useNavigate } from "react-router";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
+import { useGlobals } from "../../hooks/useGlobals";
+import { getImageUrl } from "../../lib/config";
 
 export default function Navbar() {
-  const authMember = false;
+  const { authMember } = useGlobals();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -18,7 +20,7 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
-  console.log("name:", name);
+  console.log("+authMember:", authMember);
 
   return (
     <div className="navbar">
@@ -56,8 +58,8 @@ export default function Navbar() {
             </Badge>
 
             <Box className="login-user" onClick={handleClick}>
-              <img src="./image/default-user.svg" alt="" />
-              <span>Justin</span>
+              <img src={getImageUrl(authMember?.memberImage)} alt="" />
+              <span>{authMember.memberNick}</span>
               <KeyboardArrowDownIcon />
             </Box>
 

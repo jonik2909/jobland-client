@@ -7,9 +7,10 @@ import {
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router";
 import memberService from "../../services/MemberService";
-import { errorToast } from "../../lib/Toastify";
+import { errorToast, successToast } from "../../lib/Toastify";
 import type { Member } from "../../types/member";
 import { MemberType } from "../../types/enums/member.enum";
+import { useGlobals } from "../../hooks/useGlobals";
 
 function useQuery() {
   const { search } = useLocation();
@@ -20,6 +21,7 @@ export default function JoinPage() {
   /** INITIALIZATIONS **/
   const query = useQuery();
   const navigate = useNavigate();
+  const { setAuthMember } = useGlobals();
 
   const [memberNick, setMemberNick] = useState("");
   const [memberPassword, setMemberPassword] = useState("");
@@ -48,9 +50,10 @@ export default function JoinPage() {
         memberNick,
         memberPassword,
       );
-      console.log("result:", result);
 
-      // REAL TIME CONTEXT
+      setAuthMember(result);
+      successToast(`Welcome ${result.memberNick}`);
+      navigate("/");
     } catch (err) {
       console.log("Error, loginHandler:", err);
       errorToast(err);
@@ -59,21 +62,16 @@ export default function JoinPage() {
 
   const signupHandler = async () => {
     try {
-      console.log("signupHandler");
-      console.log("memberNick:", memberNick);
-      console.log("memberPassword:", memberPassword);
-      console.log("memberPhone:", memberPhone);
-      console.log("memberType:", memberType);
-
       const result: Member = await memberService.signup({
         memberNick,
         memberPassword,
         memberPhone,
         memberType,
       });
-      console.log("result:", result);
 
-      // REAL TIME CONTEXT
+      setAuthMember(result);
+      successToast(`Welcome ${result.memberNick}`);
+      navigate("/");
     } catch (err) {
       console.log("Error, signupHandler:", err);
       errorToast(err);
