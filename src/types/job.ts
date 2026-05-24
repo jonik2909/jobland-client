@@ -40,3 +40,22 @@ export interface JobsInquiry {
   jobCategory?: CategoryType;
   search?: string;
 }
+
+/** COMPANY DASHBOARD **/
+export interface CompanyJobCreate {
+  jobTitle: string;
+  jobDesc: string;
+  jobType: JobType;
+  jobRequirement: string;
+  jobExpertise: string;
+  jobSalary: string;
+  jobLevel: JobLevel;
+  jobExperience: string;
+  jobHourRate: number;
+  jobDeadline: string;
+  jobCategory: CategoryType;
+  jobCountry: Country;
+  jobCity: string;
+  jobAddress: string;
+  jobStatus?: JobStatus;
+}
