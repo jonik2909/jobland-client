@@ -32,3 +32,10 @@ export interface TApplicationResponse {
   total: number;
   stats: ApplicationStats;
 }
+
+export interface CompanyApplicantsInquiry {
+  page: number;
+  limit: number;
+  jobId?: string;
+  applicationStatus?: ApplicationStatus;
+}

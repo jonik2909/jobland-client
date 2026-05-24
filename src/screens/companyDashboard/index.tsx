@@ -5,9 +5,10 @@ import { useEffect } from "react";
 import { errorToast } from "../../lib/Toastify";
 import { AppErrors } from "../../lib/config";
 import { MemberType } from "../../types/enums/member.enum";
+import Cookies from "universal-cookie";
 
 export default function CompanyDashboard() {
-  const { authMember } = useGlobals();
+  const { authMember, setAuthMember } = useGlobals();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,6 +18,13 @@ export default function CompanyDashboard() {
       navigate("/");
     }
   }, [authMember]);
+
+  const logoutHandler = () => {
+    const cookies = new Cookies();
+    cookies.remove("accessToken");
+    localStorage.removeItem("memberData");
+    setAuthMember(null);
+  };
 
   // Check current path to determine active tab
   const pathname = location.pathname;
@@ -180,7 +188,7 @@ export default function CompanyDashboard() {
           <span>All Applicants</span>
         </Box>
 
-        <Box className={`tab`}>
+        <Box className={`tab`} onClick={logoutHandler}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

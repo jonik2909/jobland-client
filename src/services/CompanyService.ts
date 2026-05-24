@@ -7,6 +7,11 @@ import type {
   CompanyJobUpdate,
   Job,
 } from "../types/job";
+import type {
+  CompanyApplicantsInquiry,
+  TApplicationResponse,
+} from "../types/application";
+import type { ApplicationStatus } from "../types/enums/application.enum";
 
 class CompanyService {
   private readonly path: string;
@@ -74,6 +79,44 @@ class CompanyService {
       return result.data;
     } catch (err) {
       console.log("Error, getCompanyJob:", err);
+      throw err;
+    }
+  }
+
+  public async getCompanyApplicants(
+    data: CompanyApplicantsInquiry,
+  ): Promise<TApplicationResponse> {
+    try {
+      const result = await axios.get(`${this.path}/applications/list`, {
+        headers: { ...getHeaders() },
+        params: data,
+      });
+      console.log("getCompanyApplicants:", result);
+
+      return result.data;
+    } catch (err) {
+      console.log("Error, getCompanyApplicants:", err);
+      throw err;
+    }
+  }
+
+  public async updateApplicationStatus(
+    id: string,
+    applicationStatus: ApplicationStatus,
+  ): Promise<any> {
+    try {
+      const result = await axios.post(
+        `${this.path}/application/update-status/${id}`,
+        { applicationStatus },
+        {
+          headers: { ...getHeaders() },
+        },
+      );
+      console.log("updateApplicationStatus:", result);
+
+      return result.data;
+    } catch (err) {
+      console.log("Error, updateApplicationStatus:", err);
       throw err;
     }
   }

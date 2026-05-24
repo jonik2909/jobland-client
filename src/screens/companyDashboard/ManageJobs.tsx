@@ -218,6 +218,11 @@ export default function ManageJobs() {
                                 color: "#1967D2",
                                 textDecoration: "underline",
                               }}
+                              onClick={() => {
+                                navigate(
+                                  `/company/dashboard/all-applicants?jobId=${job.id}&jobTitle=${job.jobTitle}`,
+                                );
+                              }}
                             >
                               {job.appliedCount} Applied
                             </div>
