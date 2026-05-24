@@ -20,6 +20,7 @@ import { useAppSelector } from "../../hooks";
 import moment from "moment";
 import { useNavigate } from "react-router";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { errorToast } from "../../lib/Toastify";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -103,6 +104,17 @@ export default function ManageJobs() {
       ...inquiry,
       page: value,
     });
+  };
+
+  const updateStatusHandler = async (jobId: string, status: JobStatus) => {
+    try {
+      await companyService.updateJob({ id: jobId, jobStatus: status });
+
+      setInquiry({ ...inquiry });
+    } catch (err) {
+      console.log("Error, updateStatusHandler:", err);
+      errorToast(err);
+    }
   };
 
   return (
@@ -249,7 +261,7 @@ export default function ManageJobs() {
                                   <MenuItem
                                     onClick={() => {
                                       statusCloseHandler();
-                                      // TODO: UPDATE STATUS
+                                      updateStatusHandler(job.id, status);
                                     }}
                                     key={status}
                                   >
