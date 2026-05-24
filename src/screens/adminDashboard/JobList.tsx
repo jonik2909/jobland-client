@@ -14,7 +14,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import { useState } from "react";
+import { useAppSelector } from "../../hooks";
+import { useDispatch } from "react-redux";
+import type { AdminJobsInquiry, Job } from "../../types/job";
+import { useEffect, useState } from "react";
+import adminService from "../../services/AdminService";
+import { selectAdminJobs, setAdminJobs } from "./state";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { formatEnum } from "../../lib/config";
+import { errorToast, successToast } from "../../lib/Toastify";
+import { JobSort, JobStatus, JobType } from "../../types/enums/job.enum";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -47,11 +56,29 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 export default function JobList() {
+  const dispatch = useDispatch();
+  const adminJobs = useAppSelector(selectAdminJobs);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [statusAnchor, setStatusAnchor] = useState<{
     [key: string]: HTMLElement | null;
   }>({});
   const [filterName, setFilterName] = useState("All");
+  const [inquiry, setInquiry] = useState<AdminJobsInquiry>({
+    page: 1,
+    limit: 10,
+    sort: JobSort.createdAt,
+  });
+
+  useEffect(() => {
+    adminService
+      .getAllJobs(inquiry)
+      .then((data) => {
+        dispatch(setAdminJobs(data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [inquiry]);
 
   const sortingClickHandler = (e: any) => {
     setAnchorEl(e.currentTarget);
@@ -65,6 +92,34 @@ export default function JobList() {
     setStatusAnchor({});
   };
 
+  const sortingHandler = (value: string) => {
+    setFilterName(value);
+    setInquiry({
+      ...inquiry,
+      jobType: value === "All" ? undefined : (value as JobType),
+      page: 1,
+    });
+    setAnchorEl(null);
+  };
+
+  const paginationHandler = (_e: React.ChangeEvent<unknown>, value: number) => {
+    setInquiry({
+      ...inquiry,
+      page: value,
+    });
+  };
+
+  const updateJobHandler = async (jobId: string, status: JobStatus) => {
+    try {
+      await adminService.updateAdminJob(jobId, status);
+      setInquiry({ ...inquiry });
+      successToast("Successfully updated!", 700);
+    } catch (err) {
+      console.log(err);
+      errorToast(err);
+    }
+  };
+
   return (
     <Stack className="tab-content">
       <span className="main-title">All Jobs</span>
@@ -76,7 +131,7 @@ export default function JobList() {
             <div className="filter">
               <div className="sort-box">
                 <div onClick={sortingClickHandler}>
-                  {filterName} <KeyboardArrowDownRoundedIcon />
+                  {formatEnum(filterName)} <KeyboardArrowDownRoundedIcon />
                 </div>
                 <Menu
                   anchorEl={anchorEl}
@@ -90,10 +145,22 @@ export default function JobList() {
                     },
                   }}
                 >
-                  <MenuItem id={"All"} disableRipple>
+                  <MenuItem
+                    onClick={() => sortingHandler("All")}
+                    id={"All"}
+                    disableRipple
+                  >
                     All
                   </MenuItem>
-                  <MenuItem disableRipple>TYPE</MenuItem>
+                  {Object.values(JobType).map((type: JobType) => (
+                    <MenuItem
+                      onClick={() => sortingHandler(type)}
+                      id={type}
+                      disableRipple
+                    >
+                      {formatEnum(type)}
+                    </MenuItem>
+                  ))}
                 </Menu>
               </div>
             </div>
@@ -112,71 +179,97 @@ export default function JobList() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <StyledTableRow>
-                    <StyledTableCell>Senior React Developer</StyledTableCell>
-                    <StyledTableCell align="center">Google</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Development
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Link
-                        component="button"
-                        variant="body2"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        15
-                      </Link>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">FULL_TIME</StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div
-                        className={`status-badge active`}
-                        onClick={(e) => statusClickHandler(e, "job.id")}
-                      >
-                        ACTIVE
-                      </div>
-                      <Menu
-                        sx={{ mt: "20px" }}
-                        anchorEl={statusAnchor["job.id"]}
-                        open={Boolean(statusAnchor["job.id"])}
-                        onClose={statusCloseHandler}
-                        anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "center",
-                        }}
-                        transformOrigin={{
-                          vertical: "top",
-                          horizontal: "center",
-                        }}
-                      >
-                        <MenuItem>STATUS</MenuItem>
-                      </Menu>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                  <StyledTableRow>
-                    <StyledTableCell>Product Manager</StyledTableCell>
-                    <StyledTableCell align="center">Amazon</StyledTableCell>
-                    <StyledTableCell align="center">Management</StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Link
-                        component="button"
-                        variant="body2"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        32
-                      </Link>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">PART_TIME</StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className={`status-badge pending`}>PENDING</div>
-                    </StyledTableCell>
-                  </StyledTableRow>
+                  {adminJobs.list.length > 0 ? (
+                    adminJobs.list.map((job: Job) => {
+                      let title = job.jobTitle;
+                      if (title.length > 20) {
+                        title = title.slice(0, 17) + "...";
+                      }
+                      return (
+                        <StyledTableRow>
+                          <StyledTableCell>{title}</StyledTableCell>
+                          <StyledTableCell align="center">
+                            {job.company?.memberNick}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {formatEnum(job.jobCategory)}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <Link
+                              component="button"
+                              variant="body2"
+                              sx={{ fontWeight: "bold" }}
+                            >
+                              {job.appliedCount}
+                            </Link>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {formatEnum(job.jobType)}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <div
+                              className={`status-badge ${job.jobStatus.toLowerCase()}`}
+                              onClick={(e) => statusClickHandler(e, job.id)}
+                            >
+                              {job.jobStatus.toLowerCase()}
+                            </div>
+                            <Menu
+                              sx={{ mt: "20px" }}
+                              anchorEl={statusAnchor[job.id]}
+                              open={Boolean(statusAnchor[job.id])}
+                              onClose={statusCloseHandler}
+                              anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "center",
+                              }}
+                              transformOrigin={{
+                                vertical: "top",
+                                horizontal: "center",
+                              }}
+                            >
+                              {Object.values(JobStatus)
+                                .filter(
+                                  (ele: JobStatus) => ele !== job.jobStatus,
+                                )
+                                .map((status: JobStatus) => {
+                                  return (
+                                    <MenuItem
+                                      onClick={() => {
+                                        statusCloseHandler();
+                                        updateJobHandler(job.id, status);
+                                      }}
+                                      key={status}
+                                    >
+                                      {status}
+                                    </MenuItem>
+                                  );
+                                })}
+                            </Menu>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })
+                  ) : (
+                    <StyledTableRow>
+                      <StyledTableCell colSpan={6} align="center">
+                        <div className="no-data">
+                          <InfoOutlinedIcon />
+                          <span>No data found!</span>
+                        </div>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
           </Box>
           <Stack className="pagination-box">
-            <Pagination color="primary" count={5} page={1} />
+            <Pagination
+              color="primary"
+              count={Math.ceil(adminJobs.total / inquiry.limit)}
+              page={inquiry.page}
+              onChange={paginationHandler}
+            />
           </Stack>
         </Stack>
       </Stack>

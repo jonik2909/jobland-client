@@ -68,3 +68,21 @@ export interface MemberUpdate {
   memberHourRate?: number;
   memberCategory?: CategoryType;
 }
+
+/** ADMIN DASHBOARD **/
+export interface AdminMembersInquiry {
+  page: number;
+  limit: number;
+  sort?: MemberSort;
+  memberType?: MemberType;
+  memberCategory?: CategoryType;
+  memberFeatured?: MemberFeatured;
+  memberStatus?: MemberStatus;
+  search?: string;
+}
+
+export interface AdminMemberUpdate {
+  memberStatus?: MemberStatus;
+  memberType?: MemberType;
+  memberFeatured?: MemberFeatured;
+}

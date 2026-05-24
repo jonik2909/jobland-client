@@ -90,3 +90,17 @@ export interface CompanyJobUpdate {
   jobAddress?: string;
   jobStatus?: JobStatus;
 }
+
+/** ADMIN DASHBOARD **/
+export interface AdminJobsInquiry {
+  page: number;
+  limit: number;
+  sort?: JobSort;
+  companyId?: string;
+  jobType?: JobType;
+  jobLevel?: JobLevel;
+  jobCountry?: Country;
+  jobCategory?: CategoryType;
+  jobStatus?: JobStatus;
+  search?: string;
+}

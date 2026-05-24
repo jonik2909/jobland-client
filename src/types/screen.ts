@@ -43,3 +43,7 @@ export interface CompanyDashboardState {
 }
 
 /** ADMIN DASHBOARD **/
+export interface AdminDashboardState {
+  adminMembers: TResponse<Member>;
+  adminJobs: TResponse<Job>;
+}
