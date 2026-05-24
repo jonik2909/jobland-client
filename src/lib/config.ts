@@ -27,6 +27,7 @@ export enum AppErrors {
   LOGIN_REQUIRED = "Please login first!",
   IMG_FORMAT = "Only Images with jpg, jpeg, png, webp format allowed!",
   INPUT_ERR = "Please fulfill all inputs!",
+  ACCESS_DENIED = "You do not have permission to access this page!",
 }
 
 export const validateDataHandler = (data: any): boolean => {

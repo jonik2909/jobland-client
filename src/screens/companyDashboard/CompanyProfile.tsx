@@ -1,132 +1,224 @@
-import { Stack, Box, Button } from '@mui/material';
+import { Stack, Box, Button } from "@mui/material";
+import { useRef, useState } from "react";
+import { useGlobals } from "../../hooks/useGlobals";
+import {
+  AppErrors,
+  formatEnum,
+  getImageUrl,
+  validateDataHandler,
+} from "../../lib/config";
+import type { MemberUpdate } from "../../types/member";
+import { errorToast, successToast } from "../../lib/Toastify";
+import uploadService from "../../services/UploadService";
+import memberService from "../../services/MemberService";
+import { CategoryType, Country } from "../../types/enums/common.enum";
 
 export default function CompanyProfile() {
-	return (
-		<Stack className="tab-content">
-			<span className="main-title">Company Profile</span>
-			<span className="main-desc">Ready to jump back in?</span>
-			<Stack className="content">
-				<Stack className="wrap">
-					<span className="title">Company Profile</span>
-					<Box className="avatar-box">
-						<img src="/icons/default-user.svg" alt="" />
-						<div>
-							<button>
-								<input
-									type="file"
-									hidden
-									accept="image/jpg, image/jpeg, image/png"
-								/>
-								Browse Logo
-							</button>
-							<p>Max file size is 1MB, Minimum dimension: 330x300 And Suitable files are .jpg & .png</p>
-						</div>
-					</Box>
+  const { authMember, setAuthMember } = useGlobals();
+  const fileInputRef = useRef<any>(null);
+  const [imagePreview, setImagePreview] = useState<string>(
+    getImageUrl(authMember?.memberImage),
+  );
+  const [file, setFile] = useState<File | null>(null);
+  const [updateInput, setUpdateInput] = useState<MemberUpdate>({
+    memberNick: authMember?.memberNick || "",
+    memberPhone: authMember?.memberPhone || "",
+    memberEmail: authMember?.memberEmail || "",
+    memberWebsite: authMember?.memberWebsite || "",
+    memberCategory: authMember?.memberCategory || ("select" as any),
+    memberTeamSize: authMember?.memberTeamSize || "select",
+    memberCountry: authMember?.memberCountry || ("select" as any),
+    memberDesc: authMember?.memberDesc || "",
+  });
 
-					<Box className="double-input">
-						<div className="box">
-							<span>Company name</span>
-							<input
-								type="text"
-								placeholder="Name"
-							/>
-						</div>
-						<div className="box">
-							<span>Email Address</span>
-							<input
-								type="text"
-								placeholder="Email Address"
-							/>
-						</div>
-					</Box>
+  const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        errorToast(AppErrors.IMG_FORMAT);
+        return;
+      }
+      setFile(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-					<Box className="double-input">
-						<div className="box">
-							<span>Phone</span>
-							<input
-								type="text"
-								placeholder="Phone"
-							/>
-						</div>
-						<div className="box">
-							<span>Website</span>
-							<input
-								type="text"
-								placeholder="Website"
-							/>
-						</div>
-					</Box>
+  const inputChangeHandler = (e: any) => {
+    const { name, value } = e.target;
+    setUpdateInput({ ...updateInput, [name]: value });
+  };
 
-					<Box className="double-input">
-						<div className="box">
-							<span>Categories</span>
-							<select
-								name=""
-								id=""
-								defaultValue="select"
-							>
-								<option value="select" disabled>
-									Select
-								</option>
-								<option value="1">Development</option>
-								<option value="2">Design</option>
-								<option value="3">Marketing</option>
-							</select>
-						</div>
-						<div className="box">
-							<span>Team size</span>
-							<select
-								name=""
-								id=""
-								defaultValue="select"
-							>
-								<option value="select" disabled>
-									Select
-								</option>
-								<option value="1-50">1-50</option>
-								<option value="50-100">50-100</option>
-								<option value="100-150">100-150</option>
-								<option value="150-200">150-200</option>
-							</select>
-						</div>
-					</Box>
+  const updateMemberHandler = async () => {
+    try {
+      if (file) {
+        const imagePath = await uploadService.uploadImage("members", file);
+        updateInput.memberImage = imagePath;
+      }
 
-					<Box className="single-input">
-						<div className="box">
-							<span>Country</span>
-							<select
-								name=""
-								id=""
-								defaultValue="select"
-							>
-								<option value="select" disabled>
-									Select
-								</option>
-								<option value="South Korea">South Korea</option>
-								<option value="Uzbekistan">Uzbekistan</option>
-							</select>
-						</div>
-					</Box>
-					<Box className="single-input">
-						<div className="box">
-							<span>About Company</span>
-							<textarea
-								name=""
-								id=""
-								cols={30}
-								rows={10}
-								placeholder="write here..."
-							></textarea>
-						</div>
-					</Box>
+      const isValid = validateDataHandler(updateInput);
+      if (!isValid) throw new Error(AppErrors.INPUT_ERR);
 
-					<Box className="box-wrap">
-						<Button variant="contained">
-							save
-						</Button>
-					</Box>
-				</Stack>
-			</Stack>
-		</Stack>
-	);
+      const result = await memberService.updateMember(updateInput);
+      setAuthMember(result);
+
+      successToast("Updated Successfully!");
+    } catch (err) {
+      console.log("Error, updateMemberHandler:", err);
+      errorToast(err);
+    }
+  };
+
+  return (
+    <Stack className="tab-content">
+      <span className="main-title">Company Profile</span>
+      <span className="main-desc">Ready to jump back in?</span>
+      <Stack className="content">
+        <Stack className="wrap">
+          <span className="title">Company Profile</span>
+          <Box className="avatar-box">
+            <img src={imagePreview} alt="avatar" />
+            <div>
+              <button onClick={() => fileInputRef.current?.click()}>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  hidden
+                  accept="image/jpg, image/jpeg, image/png, image/webp"
+                  onChange={imageChangeHandler}
+                />
+                Browse Logo
+              </button>
+              <p>
+                Max file size is 1MB, Minimum dimension: 330x300 And Suitable
+                files are .jpg & .png
+              </p>
+            </div>
+          </Box>
+
+          <Box className="double-input">
+            <div className="box">
+              <span>Company name</span>
+              <input
+                type="text"
+                placeholder="Name"
+                name="memberNick"
+                value={updateInput?.memberNick}
+                onChange={inputChangeHandler}
+              />
+            </div>
+            <div className="box">
+              <span>Email Address</span>
+              <input
+                type="text"
+                placeholder="Email Address"
+                name="memberEmail"
+                value={updateInput?.memberEmail}
+                onChange={inputChangeHandler}
+              />
+            </div>
+          </Box>
+
+          <Box className="double-input">
+            <div className="box">
+              <span>Phone</span>
+              <input
+                type="text"
+                placeholder="Phone"
+                name="memberPhone"
+                value={updateInput?.memberPhone}
+                onChange={inputChangeHandler}
+              />
+            </div>
+            <div className="box">
+              <span>Website</span>
+              <input
+                type="text"
+                placeholder="Website"
+                name="memberWebsite"
+                value={updateInput.memberWebsite}
+                onChange={inputChangeHandler}
+              />
+            </div>
+          </Box>
+
+          <Box className="double-input">
+            <div className="box">
+              <span>Categories</span>
+              <select
+                name="memberCategory"
+                value={updateInput.memberCategory}
+                onChange={inputChangeHandler}
+              >
+                <option value="select" disabled>
+                  Select
+                </option>
+                {Object.keys(CategoryType).map((category) => (
+                  <option value={category}>{formatEnum(category)}</option>
+                ))}
+              </select>
+            </div>
+            <div className="box">
+              <span>Team size</span>
+              <select
+                name="memberTeamSize"
+                value={updateInput.memberTeamSize}
+                onChange={inputChangeHandler}
+              >
+                <option value="select" disabled>
+                  Select
+                </option>
+                <option value="1-50">1-50</option>
+                <option value="50-100">50-100</option>
+                <option value="100-150">100-150</option>
+                <option value="150-200">150-200</option>
+              </select>
+            </div>
+          </Box>
+
+          <Box className="single-input">
+            <div className="box">
+              <span>Country</span>
+              <select
+                name="memberCountry"
+                value={updateInput.memberCountry}
+                onChange={inputChangeHandler}
+              >
+                <option value="select" disabled>
+                  Select
+                </option>
+
+                {Object.keys(Country).map((country) => (
+                  <option value={country}>{country}</option>
+                ))}
+              </select>
+            </div>
+          </Box>
+          <Box className="single-input">
+            <div className="box">
+              <span>About Company</span>
+              <textarea
+                id=""
+                cols={30}
+                rows={10}
+                placeholder="write here..."
+                name="memberDesc"
+                value={updateInput.memberDesc}
+                onChange={inputChangeHandler}
+              ></textarea>
+            </div>
+          </Box>
+
+          <Box className="box-wrap">
+            <Button variant="contained" onClick={updateMemberHandler}>
+              save
+            </Button>
+          </Box>
+        </Stack>
+      </Stack>
+    </Stack>
+  );
 }
