@@ -117,6 +117,22 @@ export default function ManageJobs() {
     }
   };
 
+  const deleteJobHandler = async (jobId: string) => {
+    try {
+      if (confirm("Do you want to delete this job?")) {
+        await companyService.updateJob({
+          id: jobId,
+          jobStatus: JobStatus.DELETE,
+        });
+
+        setInquiry({ ...inquiry });
+      }
+    } catch (err) {
+      console.log("Error, deleteJobHandler:", err);
+      errorToast(err);
+    }
+  };
+
   return (
     <Stack className="tab-content">
       <span className="main-title">Manage Jobs</span>
@@ -282,7 +298,7 @@ export default function ManageJobs() {
                               <div>
                                 <EditOutlinedIcon />
                               </div>
-                              <div>
+                              <div onClick={() => deleteJobHandler(job.id)}>
                                 <DeleteOutlineOutlinedIcon />
                               </div>
                             </div>
