@@ -7,9 +7,10 @@ import { useGlobals } from "../../hooks/useGlobals";
 import { errorToast } from "../../lib/Toastify";
 import { AppErrors } from "../../lib/config";
 import { useNavigate } from "react-router";
+import Cookies from "universal-cookie";
 
 const MyPage = () => {
-  const { authMember } = useGlobals();
+  const { authMember, setAuthMember } = useGlobals();
   const navigate = useNavigate();
   const [tab, setTab] = useState("profile");
 
@@ -18,10 +19,17 @@ const MyPage = () => {
       errorToast(AppErrors.LOGIN_REQUIRED);
       navigate("/");
     }
-  }, []);
+  }, [authMember]);
 
   const changeTabHandler = (tab: string) => {
     setTab(tab);
+  };
+
+  const logoutHandler = () => {
+    const cookies = new Cookies();
+    cookies.remove("accessToken");
+    localStorage.removeItem("memberData");
+    setAuthMember(null);
   };
 
   return (
@@ -143,7 +151,10 @@ const MyPage = () => {
           <span>My Background</span>
         </Box>
 
-        <Box className={`tab ${tab === "logout" ? "active" : ""}`}>
+        <Box
+          className={`tab ${tab === "logout" ? "active" : ""}`}
+          onClick={logoutHandler}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
