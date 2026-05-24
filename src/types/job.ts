@@ -59,3 +59,15 @@ export interface CompanyJobCreate {
   jobAddress: string;
   jobStatus?: JobStatus;
 }
+
+export interface CompanyJobsInquiry {
+  page: number;
+  limit: number;
+  sort?: JobSort;
+  jobType?: JobType;
+  jobLevel?: JobLevel;
+  jobCountry?: Country;
+  jobCategory?: CategoryType;
+  jobStatus?: JobStatus;
+  search?: string;
+}

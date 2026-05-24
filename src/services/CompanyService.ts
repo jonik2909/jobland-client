@@ -1,7 +1,7 @@
 import axios from "axios";
 import { serverApi, getHeaders } from "../lib/config";
 import type { TResponse } from "../types/response";
-import type { CompanyJobCreate, Job } from "../types/job";
+import type { CompanyJobCreate, CompanyJobsInquiry, Job } from "../types/job";
 
 class CompanyService {
   private readonly path: string;
@@ -9,6 +9,7 @@ class CompanyService {
   constructor() {
     this.path = serverApi + "/company";
   }
+
   public async createJob(data: CompanyJobCreate): Promise<TResponse<Job>> {
     try {
       const result = await axios.post(`${this.path}/job/create`, data, {
@@ -19,6 +20,23 @@ class CompanyService {
       return result.data;
     } catch (err) {
       console.log("Error, createJob:", err);
+      throw err;
+    }
+  }
+
+  public async getCompanyJobs(
+    data: CompanyJobsInquiry,
+  ): Promise<TResponse<Job>> {
+    try {
+      const result = await axios.get(`${this.path}/job/list`, {
+        headers: { ...getHeaders() },
+        params: data,
+      });
+      console.log("getCompanyJobs:", result);
+
+      return result.data;
+    } catch (err) {
+      console.log("Error, getCompanyJobs:", err);
       throw err;
     }
   }

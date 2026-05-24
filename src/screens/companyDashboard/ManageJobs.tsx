@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Stack, Box, Pagination, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import { styled } from "@mui/material/styles";
@@ -11,6 +11,15 @@ import TableRow from "@mui/material/TableRow";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import type { CompanyJobsInquiry, Job } from "../../types/job";
+import { JobSort, JobStatus } from "../../types/enums/job.enum";
+import companyService from "../../services/CompanyService";
+import { useDispatch } from "react-redux";
+import { selectCompanyJobs, setCompanyJobs } from "./state";
+import { useAppSelector } from "../../hooks";
+import moment from "moment";
+import { useNavigate } from "react-router";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,8 +51,28 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 export default function ManageJobs() {
+  const dispatch = useDispatch();
+  const companyJobs = useAppSelector(selectCompanyJobs);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [statusAnchor, setStatusAnchor] = useState<[] | HTMLElement[]>([]);
+  const [filterName, setFilterName] = useState<string>("All");
+  const [inquiry, setInquiry] = useState<CompanyJobsInquiry>({
+    page: 1,
+    limit: 10,
+    sort: JobSort.createdAt,
+  });
+
+  useEffect(() => {
+    companyService
+      .getCompanyJobs(inquiry)
+      .then((data) => {
+        dispatch(setCompanyJobs(data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [inquiry]);
 
   const sortingClickHandler = (e: any) => {
     setAnchorEl(e.currentTarget);
@@ -53,6 +82,27 @@ export default function ManageJobs() {
     const tempAnchor = statusAnchor.slice();
     tempAnchor[index] = e.currentTarget;
     setStatusAnchor(tempAnchor);
+  };
+
+  const sortingHandler = (value: string) => {
+    setFilterName(value);
+    setInquiry({
+      ...inquiry,
+      jobStatus: value === "All" ? undefined : (value as JobStatus),
+      page: 1,
+    });
+    setAnchorEl(null);
+  };
+
+  const statusCloseHandler = () => {
+    setStatusAnchor([]);
+  };
+
+  const paginationHandler = (_e: React.ChangeEvent<unknown>, value: number) => {
+    setInquiry({
+      ...inquiry,
+      page: value,
+    });
   };
 
   return (
@@ -66,7 +116,7 @@ export default function ManageJobs() {
             <div className="filter">
               <div className="sort-box">
                 <div onClick={sortingClickHandler}>
-                  All <KeyboardArrowDownRoundedIcon />
+                  {filterName} <KeyboardArrowDownRoundedIcon />
                 </div>
                 <Menu
                   anchorEl={anchorEl}
@@ -80,12 +130,23 @@ export default function ManageJobs() {
                     },
                   }}
                 >
-                  <MenuItem id="All" disableRipple>
+                  <MenuItem onClick={() => sortingHandler("All")} disableRipple>
                     All
                   </MenuItem>
-                  <MenuItem id="STATUS" disableRipple>
-                    STATUS
-                  </MenuItem>
+                  {Object.values(JobStatus).map((status: string) => {
+                    if (status !== JobStatus.DELETE) {
+                      return (
+                        <MenuItem
+                          onClick={() => sortingHandler(status)}
+                          id={status}
+                          disableRipple
+                          key={status}
+                        >
+                          {status}
+                        </MenuItem>
+                      );
+                    }
+                  })}
                 </Menu>
               </div>
             </div>
@@ -107,121 +168,137 @@ export default function ManageJobs() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <StyledTableRow>
-                    <StyledTableCell>
-                      <div className="my-job-title">
-                        <p>Senior React Developer</p>
-                        <div>
-                          <img src="/icons/location.svg" alt="" />
-                          <span>Seoul, South Korea</span>
+                  {companyJobs.list.length > 0 ? (
+                    companyJobs.list.map((job: Job, index: number) => {
+                      return (
+                        <StyledTableRow>
+                          <StyledTableCell>
+                            <div className="my-job-title">
+                              <p>{job.jobTitle}</p>
+                              <div>
+                                <img src="/icons/location.svg" alt="" />
+                                <span>
+                                  {job.jobCity}, {job.jobCountry}
+                                </span>
+                              </div>
+                            </div>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <div
+                              style={{
+                                cursor: "pointer",
+                                color: "#1967D2",
+                                textDecoration: "underline",
+                              }}
+                            >
+                              {job.appliedCount} Applied
+                            </div>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            <div className="date-box">
+                              <p>
+                                {moment(job.createdAt).format("MMMM DD, YYYY")}
+                              </p>
+                              <p>
+                                {moment(job.jobDeadline).format(
+                                  "MMMM DD, YYYY",
+                                )}
+                              </p>
+                            </div>
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {job.jobStatus === JobStatus.COMPLETE ? (
+                              <div
+                                className={`status-badge ${job.jobStatus.toLowerCase()}`}
+                              >
+                                {job.jobStatus}
+                              </div>
+                            ) : (
+                              <div
+                                className={`status-badge ${job.jobStatus.toLowerCase()}`}
+                                onClick={(e: any) =>
+                                  statusClickHandler(e, index)
+                                }
+                              >
+                                {job.jobStatus}
+                              </div>
+                            )}
+                          </StyledTableCell>
+                          <Menu
+                            sx={{ mt: "20px" }}
+                            anchorEl={statusAnchor[0]}
+                            open={Boolean(statusAnchor[0])}
+                            onClose={() => setStatusAnchor([])}
+                            anchorOrigin={{
+                              vertical: "top",
+                              horizontal: "right",
+                            }}
+                            transformOrigin={{
+                              vertical: "top",
+                              horizontal: "right",
+                            }}
+                          >
+                            {Object.values(JobStatus)
+                              .filter(
+                                (ele: JobStatus) =>
+                                  ele !== job.jobStatus &&
+                                  ele !== JobStatus.DELETE,
+                              )
+                              .map((status: JobStatus) => {
+                                return (
+                                  <MenuItem
+                                    onClick={() => {
+                                      statusCloseHandler();
+                                      // TODO: UPDATE STATUS
+                                    }}
+                                    key={status}
+                                  >
+                                    {status}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Menu>
+                          <StyledTableCell align="center">
+                            <div className="job-action-box">
+                              {job.jobStatus === JobStatus.ACTIVE && (
+                                <div
+                                  onClick={() => navigate(`/jobs/${job.id}`)}
+                                >
+                                  <RemoveRedEyeOutlinedIcon />
+                                </div>
+                              )}
+                              <div>
+                                <EditOutlinedIcon />
+                              </div>
+                              <div>
+                                <DeleteOutlineOutlinedIcon />
+                              </div>
+                            </div>
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      );
+                    })
+                  ) : (
+                    <StyledTableRow>
+                      <StyledTableCell colSpan={6} align="center">
+                        <div className="no-data">
+                          <InfoOutlinedIcon />
+                          <span>No data found!</span>
                         </div>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div
-                        style={{
-                          cursor: "pointer",
-                          color: "#1967D2",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        3 Applied
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className="date-box">
-                        <p>April 25, 2026</p>
-                        <p>May 25, 2026</p>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div
-                        className={`status-badge active`}
-                        onClick={(e: any) => statusClickHandler(e, 0)}
-                      >
-                        ACTIVE
-                      </div>
-                    </StyledTableCell>
-                    <Menu
-                      sx={{ mt: "20px" }}
-                      anchorEl={statusAnchor[0]}
-                      open={Boolean(statusAnchor[0])}
-                      onClose={() => setStatusAnchor([])}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                    >
-                      <MenuItem>STATUS</MenuItem>
-                    </Menu>
-                    <StyledTableCell align="center">
-                      <div className="job-action-box">
-                        <div>
-                          <RemoveRedEyeOutlinedIcon />
-                        </div>
-                        <div>
-                          <EditOutlinedIcon />
-                        </div>
-                        <div>
-                          <DeleteOutlineOutlinedIcon />
-                        </div>
-                      </div>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                  <StyledTableRow>
-                    <StyledTableCell>
-                      <div className="my-job-title">
-                        <p>Product Manager</p>
-                        <div>
-                          <img src="/icons/location.svg" alt="" />
-                          <span>Tashkent, Uzbekistan</span>
-                        </div>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div
-                        style={{
-                          cursor: "pointer",
-                          color: "#1967D2",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        5 Applied
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className="date-box">
-                        <p>April 20, 2026</p>
-                        <p>May 20, 2026</p>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className={`status-badge pending`}>PENDING</div>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className="job-action-box">
-                        <div>
-                          <RemoveRedEyeOutlinedIcon />
-                        </div>
-                        <div>
-                          <EditOutlinedIcon />
-                        </div>
-                        <div>
-                          <DeleteOutlineOutlinedIcon />
-                        </div>
-                      </div>
-                    </StyledTableCell>
-                  </StyledTableRow>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
           </Box>
           <Stack className="pagination-box">
-            <Pagination color="primary" count={5} page={1} />
+            <Pagination
+              color="primary"
+              count={Math.ceil(companyJobs.total / inquiry.limit)}
+              page={inquiry.page}
+              onChange={paginationHandler}
+            />
           </Stack>
         </Stack>
       </Stack>
