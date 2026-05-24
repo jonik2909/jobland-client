@@ -63,6 +63,20 @@ class CompanyService {
       throw err;
     }
   }
+
+  public async getCompanyJob(jobId: string): Promise<Job> {
+    try {
+      const result = await axios.get(`${this.path}/job/${jobId}`, {
+        headers: { ...getHeaders() },
+      });
+      console.log("getCompanyJob:", result);
+
+      return result.data;
+    } catch (err) {
+      console.log("Error, getCompanyJob:", err);
+      throw err;
+    }
+  }
 }
 
 const companyService = new CompanyService();

@@ -295,7 +295,13 @@ export default function ManageJobs() {
                                   <RemoveRedEyeOutlinedIcon />
                                 </div>
                               )}
-                              <div>
+                              <div
+                                onClick={() =>
+                                  navigate(
+                                    `/company/dashboard/new-job?jobId=${job.id}`,
+                                  )
+                                }
+                              >
                                 <EditOutlinedIcon />
                               </div>
                               <div onClick={() => deleteJobHandler(job.id)}>

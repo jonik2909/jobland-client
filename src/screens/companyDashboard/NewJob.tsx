@@ -1,15 +1,17 @@
 import { Stack, Box, Button } from "@mui/material";
 import type { CompanyJobCreate } from "../../types/job";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppErrors, formatEnum, validateDataHandler } from "../../lib/config";
 import companyService from "../../services/CompanyService";
 import { errorToast, successToast } from "../../lib/Toastify";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { JobLevel, JobType } from "../../types/enums/job.enum";
 import { CategoryType, Country } from "../../types/enums/common.enum";
 
 export default function NewJob() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const jobId = searchParams.get("jobId");
   const [jobInput, setJobInput] = useState<CompanyJobCreate>({
     jobTitle: "",
     jobDesc: "",
@@ -26,6 +28,32 @@ export default function NewJob() {
     jobCity: "",
     jobAddress: "",
   });
+
+  useEffect(() => {
+    if (jobId) {
+      companyService
+        .getCompanyJob(jobId)
+        .then((data) => {
+          setJobInput({
+            jobTitle: data.jobTitle,
+            jobDesc: data.jobDesc,
+            jobType: data.jobType,
+            jobRequirement: data.jobRequirement,
+            jobExpertise: data.jobExpertise,
+            jobSalary: data.jobSalary,
+            jobLevel: data.jobLevel,
+            jobExperience: data.jobExperience,
+            jobHourRate: data.jobHourRate,
+            jobDeadline: data.jobDeadline,
+            jobCategory: data.jobCategory,
+            jobCountry: data.jobCountry,
+            jobCity: data.jobCity,
+            jobAddress: data.jobAddress,
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [jobId]);
 
   const inputChangeHandler = (e: any) => {
     const { name, value } = e.target;
@@ -49,6 +77,23 @@ export default function NewJob() {
       errorToast(err).then();
     }
   };
+
+  const updateJobHandler = async () => {
+    try {
+      const isValid = validateDataHandler(jobInput);
+      if (!isValid) throw new Error(AppErrors.INPUT_ERR);
+
+      await companyService.updateJob({ ...jobInput, id: jobId });
+      successToast("Job updated successfully!");
+
+      navigate("/company/dashboard/manage-jobs");
+    } catch (err) {
+      console.log(err);
+      errorToast(err).then();
+    }
+  };
+
+  console.log("jobId:", jobId);
 
   return (
     <Stack className="tab-content">
@@ -281,9 +326,16 @@ export default function NewJob() {
               ></iframe>
             </Box>
           )}
-
-          <Box className="box-wrap" onClick={createJobHandler}>
-            <Button variant="contained">save</Button>
+          <Box className="box-wrap">
+            {jobId ? (
+              <Button variant="contained" onClick={updateJobHandler}>
+                update
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={createJobHandler}>
+                save
+              </Button>
+            )}
           </Box>
         </Stack>
       </Stack>
