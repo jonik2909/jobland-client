@@ -10,3 +10,12 @@ export interface Background {
   backType: BackgroundType;
   createdAt: Date;
 }
+
+export interface BackgroundInput {
+  id?: string;
+  backName: string;
+  backDesc: string;
+  backType: BackgroundType;
+  backStart: string;
+  backEnd: string;
+}
