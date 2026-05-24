@@ -20,11 +20,22 @@ import backgroundService from "../../services/BackgroundService";
 import { BackgroundType } from "../../types/enums/common.enum";
 import moment from "moment";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import type { BackgroundInput } from "../../types/background";
+import { errorToast, successToast } from "../../lib/Toastify";
+import { AppErrors, validateDataHandler } from "../../lib/config";
 
 export default function MyBackground() {
   const dispatch = useAppDispatch();
   const myBackgrounds = useAppSelector(selectMyBackgrounds);
   const [open, setOpen] = useState(false);
+  const [rebuild, setRebuild] = useState<Date>(new Date());
+  const [insertData, setInsertData] = useState<BackgroundInput>({
+    backName: "",
+    backDesc: "",
+    backType: "" as any,
+    backStart: "",
+    backEnd: "",
+  });
 
   useEffect(() => {
     backgroundService
@@ -36,14 +47,43 @@ export default function MyBackground() {
         console.log(err);
         dispatch(setMyBackgrounds([]));
       });
-  }, []);
+  }, [rebuild]);
 
-  const dialogOpenHandler = () => {
+  const dialogOpenHandler = (type: BackgroundType) => {
     setOpen(true);
+
+    setInsertData({
+      backName: "",
+      backDesc: "",
+      backType: type,
+      backStart: "",
+      backEnd: "",
+    });
   };
 
   const dialogCloseHandler = () => {
     setOpen(false);
+  };
+
+  const inputChangeHandler = (e: any) => {
+    const { name, value } = e.target;
+    setInsertData({ ...insertData, [name]: value });
+  };
+
+  const createBackgroundHandler = async () => {
+    try {
+      const isValid = validateDataHandler(insertData);
+      if (!isValid) throw new Error(AppErrors.INPUT_ERR);
+
+      await backgroundService.createBackground(insertData);
+      setRebuild(new Date());
+      setOpen(false);
+
+      successToast("Created Successfully!", 700);
+    } catch (err) {
+      console.log("Error, createBackgroundHandler:", err);
+      errorToast(err);
+    }
   };
 
   const educations = useMemo(
@@ -66,6 +106,8 @@ export default function MyBackground() {
     [myBackgrounds],
   );
 
+  console.log("insertData:", insertData);
+
   return (
     <Stack className="tab-content">
       <span className="main-title">My Resume</span>
@@ -77,7 +119,9 @@ export default function MyBackground() {
               <div className="top-content">
                 <span>Education</span>
                 <div>
-                  <IconButton onClick={() => dialogOpenHandler()}>
+                  <IconButton
+                    onClick={() => dialogOpenHandler(BackgroundType.EDUCATION)}
+                  >
                     <AddIcon />
                   </IconButton>
                   Add Education
@@ -130,7 +174,9 @@ export default function MyBackground() {
               <div className="top-content">
                 <span>Work & Experience</span>
                 <div>
-                  <IconButton onClick={() => dialogOpenHandler()}>
+                  <IconButton
+                    onClick={() => dialogOpenHandler(BackgroundType.EXPERIENCE)}
+                  >
                     <AddIcon />
                   </IconButton>
                   Add Work
@@ -183,7 +229,9 @@ export default function MyBackground() {
               <div className="top-content">
                 <span>Awards</span>
                 <div>
-                  <IconButton onClick={() => dialogOpenHandler()}>
+                  <IconButton
+                    onClick={() => dialogOpenHandler(BackgroundType.AWARD)}
+                  >
                     <AddIcon />
                   </IconButton>
                   Add Awards
@@ -250,6 +298,9 @@ export default function MyBackground() {
                       id="standard-basic"
                       label="Position"
                       variant="standard"
+                      name="backName"
+                      value={insertData.backName}
+                      onChange={inputChangeHandler}
                     />
 
                     <TextField
@@ -260,6 +311,9 @@ export default function MyBackground() {
                       variant="outlined"
                       multiline
                       rows={5}
+                      name="backDesc"
+                      value={insertData.backDesc}
+                      onChange={inputChangeHandler}
                     />
                     <div
                       style={{
@@ -273,12 +327,18 @@ export default function MyBackground() {
                         type="date"
                         sx={{ width: "48%" }}
                         slotProps={{ inputLabel: { shrink: true } }}
+                        name="backStart"
+                        value={insertData.backStart}
+                        onChange={inputChangeHandler}
                       />
                       <TextField
                         label="End Date"
                         type="date"
                         sx={{ width: "48%" }}
                         slotProps={{ inputLabel: { shrink: true } }}
+                        name="backEnd"
+                        value={insertData.backEnd}
+                        onChange={inputChangeHandler}
                       />
                     </div>
                   </div>
@@ -286,7 +346,9 @@ export default function MyBackground() {
               </DialogContent>
               <DialogActions>
                 <Button onClick={dialogCloseHandler}>Cancel</Button>
-                <Button type="submit">Save</Button>
+                <Button type="submit" onClick={createBackgroundHandler}>
+                  Save
+                </Button>
               </DialogActions>
             </Dialog>
             {/* DIALOG END */}
