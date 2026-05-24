@@ -1,3 +1,5 @@
+import type { Application } from "./application";
+import type { Background } from "./background";
 import type { Job } from "./job";
 import type { Member } from "./member";
 import type { TResponse } from "./response";
@@ -29,5 +31,10 @@ export interface CandidatesPageState {
 }
 
 /** MY PAGE **/
+export interface MyPageState {
+  myApplications: TResponse<Application>;
+  myBackgrounds: Background[];
+}
+
 /** COMPANY DASHBOARD **/
 /** ADMIN DASHBOARD **/
