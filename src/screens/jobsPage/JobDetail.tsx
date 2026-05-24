@@ -5,7 +5,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import JobCard from "../../components/card/JobCard";
 import { Link, useParams } from "react-router";
 import DetailHeader from "../../components/headers/DetailHeader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import jobService from "../../services/JobService";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import {
@@ -15,14 +15,19 @@ import {
   setRelatedJobs,
 } from "./state";
 import moment from "moment";
-import { formatEnum } from "../../lib/config";
+import { AppErrors, formatEnum } from "../../lib/config";
 import type { Job } from "../../types/job";
+import { errorToast, successToast } from "../../lib/Toastify";
+import { useGlobals } from "../../hooks/useGlobals";
+import applicationService from "../../services/ApplicationService";
 
 export default function JobDetail() {
   const { jobId } = useParams();
+  const { authMember } = useGlobals();
   const dispatch = useAppDispatch();
   const jobDetail = useAppSelector(selectJobDetail);
   const relatedJobs = useAppSelector(selectRelatedJobs);
+  const [rebuild, setRebuild] = useState<Date>(new Date());
 
   useEffect(() => {
     if (!jobId) return;
@@ -32,7 +37,7 @@ export default function JobDetail() {
         dispatch(setJobDetail(data));
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [rebuild]);
 
   useEffect(() => {
     jobService
@@ -47,11 +52,25 @@ export default function JobDetail() {
       .catch((err) => console.log(err));
   }, [jobDetail]);
 
-  console.log("jobDetail:", jobDetail);
+  const submitApplicationHandler = async (jobId: string) => {
+    try {
+      if (!authMember) throw new Error(AppErrors.LOGIN_REQUIRED);
+      await applicationService.submitApplication(jobId);
+      setRebuild(new Date());
+      successToast("Applied for Job", 700);
+    } catch (err) {
+      console.log("Error, submitApplicationHandler:", err);
+      errorToast(err);
+    }
+  };
 
   return (
     <div className="job-detail">
-      <DetailHeader isJob={true} jobDetail={jobDetail} />
+      <DetailHeader
+        isJob={true}
+        jobDetail={jobDetail}
+        submitApplicationHandler={submitApplicationHandler}
+      />
       <Container className="container">
         <Stack className="left">
           <Box className="info">

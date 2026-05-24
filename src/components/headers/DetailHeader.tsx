@@ -10,10 +10,11 @@ interface DetailHeaderProps {
   isJob: boolean;
   jobDetail?: Job | null;
   memberDetail?: Member | null;
+  submitApplicationHandler?: (jobId: string) => void;
 }
 
 export default function DetailHeader(props: DetailHeaderProps) {
-  const { isJob, jobDetail, memberDetail } = props;
+  const { isJob, jobDetail, memberDetail, submitApplicationHandler } = props;
   return (
     <Stack className="detail-header">
       {!isJob ? (
@@ -97,7 +98,9 @@ export default function DetailHeader(props: DetailHeaderProps) {
           </Box>
           <Box className="btns">
             {!jobDetail?.meApplied ? (
-              <button>Apply for Job</button>
+              <button onClick={() => submitApplicationHandler(jobDetail.id)}>
+                Apply for Job
+              </button>
             ) : (
               <button>{jobDetail?.meApplied.applicationStatus}</button>
             )}
