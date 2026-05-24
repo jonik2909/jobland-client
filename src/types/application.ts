@@ -20,3 +20,15 @@ export interface ApplicationsInquiry {
   limit: number;
   applicationStatus?: ApplicationStatus;
 }
+
+export interface ApplicationStats {
+  applied: number;
+  approved: number;
+  rejected: number;
+}
+
+export interface TApplicationResponse {
+  list: Application[];
+  total: number;
+  stats: ApplicationStats;
+}

@@ -1,4 +1,4 @@
-import type { Application } from "./application";
+import type { Application, TApplicationResponse } from "./application";
 import type { Background } from "./background";
 import type { Job } from "./job";
 import type { Member } from "./member";
@@ -37,4 +37,9 @@ export interface MyPageState {
 }
 
 /** COMPANY DASHBOARD **/
+export interface CompanyDashboardState {
+  companyJob: TResponse<Job>;
+  companyApplicants: TApplicationResponse;
+}
+
 /** ADMIN DASHBOARD **/

@@ -5,6 +5,7 @@ import jobsPageReducer from "./screens/jobsPage/state";
 import companiesPageReducer from "./screens/companiesPage/state";
 import candidatesPageReducer from "./screens/candidatesPage/state";
 import myPageReducer from "./screens/myPage/state";
+import companyDashboardReducer from "./screens/companyDashboard/state";
 
 const logger = createLogger();
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     companiesPage: companiesPageReducer,
     candidatesPage: candidatesPageReducer,
     myPage: myPageReducer,
+    companyDashboard: companyDashboardReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
