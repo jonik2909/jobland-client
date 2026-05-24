@@ -54,7 +54,10 @@ class MemberService {
       const token: string = response.data.token;
 
       const cookies = new Cookies();
-      cookies.set("accessToken", token);
+      cookies.set("accessToken", token, {
+        path: "/",
+        maxAge: 29 * 24 * 60 * 60,
+      });
       localStorage.setItem("memberData", JSON.stringify(member));
 
       return response.data.member;
@@ -73,7 +76,10 @@ class MemberService {
       const token: string = response.data.token;
 
       const cookies = new Cookies();
-      cookies.set("accessToken", token);
+      cookies.set("accessToken", token, {
+        path: "/",
+        maxAge: 29 * 24 * 60 * 60,
+      });
       localStorage.setItem("memberData", JSON.stringify(member));
 
       return response.data.member;
