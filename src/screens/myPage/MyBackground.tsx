@@ -116,6 +116,20 @@ export default function MyBackground() {
     }
   };
 
+  const deleteBackgroundHandler = async (id: string) => {
+    try {
+      if (!confirm("Are you sure want to delete this?")) return;
+
+      await backgroundService.deleteBackground(id);
+      setRebuild(new Date());
+
+      successToast("Deleted Successfully!", 700);
+    } catch (err) {
+      console.log("Error, deleteBackgroundHandler:", err);
+      errorToast(err);
+    }
+  };
+
   const educations = useMemo(
     () =>
       myBackgrounds.filter(
@@ -140,7 +154,7 @@ export default function MyBackground() {
 
   return (
     <Stack className="tab-content">
-      <span className="main-title">My Resume</span>
+      <span className="main-title">My Backgrounds</span>
       <span className="main-desc">Ready to jump back in?</span>
       <Stack className="content">
         <Stack>
@@ -186,7 +200,9 @@ export default function MyBackground() {
                             >
                               <EditOutlinedIcon />
                             </div>
-                            <div>
+                            <div
+                              onClick={() => deleteBackgroundHandler(edu.id)}
+                            >
                               <DeleteOutlineOutlinedIcon />
                             </div>
                           </div>
@@ -248,7 +264,9 @@ export default function MyBackground() {
                             >
                               <EditOutlinedIcon />
                             </div>
-                            <div>
+                            <div
+                              onClick={() => deleteBackgroundHandler(exp.id)}
+                            >
                               <DeleteOutlineOutlinedIcon />
                             </div>
                           </div>
@@ -307,7 +325,9 @@ export default function MyBackground() {
                             >
                               <EditOutlinedIcon />
                             </div>
-                            <div>
+                            <div
+                              onClick={() => deleteBackgroundHandler(award.id)}
+                            >
                               <DeleteOutlineOutlinedIcon />
                             </div>
                           </div>
