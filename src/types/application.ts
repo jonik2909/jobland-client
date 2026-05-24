@@ -14,3 +14,9 @@ export interface Application {
   job?: Job;
   candidate?: Member;
 }
+
+export interface ApplicationsInquiry {
+  page: number;
+  limit: number;
+  applicationStatus?: ApplicationStatus;
+}
