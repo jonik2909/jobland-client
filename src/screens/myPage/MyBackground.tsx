@@ -20,7 +20,7 @@ import backgroundService from "../../services/BackgroundService";
 import { BackgroundType } from "../../types/enums/common.enum";
 import moment from "moment";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import type { BackgroundInput } from "../../types/background";
+import type { Background, BackgroundInput } from "../../types/background";
 import { errorToast, successToast } from "../../lib/Toastify";
 import { AppErrors, validateDataHandler } from "../../lib/config";
 
@@ -49,16 +49,30 @@ export default function MyBackground() {
       });
   }, [rebuild]);
 
-  const dialogOpenHandler = (type: BackgroundType) => {
+  const dialogOpenHandler = (
+    type: BackgroundType,
+    backData: Background | null = null,
+  ) => {
     setOpen(true);
 
-    setInsertData({
-      backName: "",
-      backDesc: "",
-      backType: type,
-      backStart: "",
-      backEnd: "",
-    });
+    if (backData) {
+      setInsertData({
+        id: backData.id,
+        backName: backData.backName,
+        backDesc: backData.backDesc,
+        backType: backData.backType,
+        backStart: backData.backStart,
+        backEnd: backData.backEnd,
+      });
+    } else {
+      setInsertData({
+        backName: "",
+        backDesc: "",
+        backType: type,
+        backStart: "",
+        backEnd: "",
+      });
+    }
   };
 
   const dialogCloseHandler = () => {
@@ -82,6 +96,22 @@ export default function MyBackground() {
       successToast("Created Successfully!", 700);
     } catch (err) {
       console.log("Error, createBackgroundHandler:", err);
+      errorToast(err);
+    }
+  };
+
+  const updateBackgroundHandler = async () => {
+    try {
+      const isValid = validateDataHandler(insertData);
+      if (!isValid) throw new Error(AppErrors.INPUT_ERR);
+
+      await backgroundService.updateBackground(insertData);
+      setRebuild(new Date());
+      setOpen(false);
+
+      successToast("Updated Successfully!", 700);
+    } catch (err) {
+      console.log("Error, updateBackgroundHandler:", err);
       errorToast(err);
     }
   };
@@ -149,7 +179,11 @@ export default function MyBackground() {
                             {moment(edu.backEnd).format("YYYY")}
                           </div>
                           <div className="resume-action-box">
-                            <div>
+                            <div
+                              onClick={() =>
+                                dialogOpenHandler(BackgroundType.EDUCATION, edu)
+                              }
+                            >
                               <EditOutlinedIcon />
                             </div>
                             <div>
@@ -204,7 +238,14 @@ export default function MyBackground() {
                             {moment(exp.backEnd).format("YYYY")}
                           </div>
                           <div className="resume-action-box">
-                            <div>
+                            <div
+                              onClick={() =>
+                                dialogOpenHandler(
+                                  BackgroundType.EXPERIENCE,
+                                  exp,
+                                )
+                              }
+                            >
                               <EditOutlinedIcon />
                             </div>
                             <div>
@@ -259,7 +300,11 @@ export default function MyBackground() {
                             {moment(award.backEnd).format("YYYY")}
                           </div>
                           <div className="resume-action-box">
-                            <div>
+                            <div
+                              onClick={() =>
+                                dialogOpenHandler(BackgroundType.AWARD, award)
+                              }
+                            >
                               <EditOutlinedIcon />
                             </div>
                             <div>
@@ -346,9 +391,15 @@ export default function MyBackground() {
               </DialogContent>
               <DialogActions>
                 <Button onClick={dialogCloseHandler}>Cancel</Button>
-                <Button type="submit" onClick={createBackgroundHandler}>
-                  Save
-                </Button>
+                {insertData.id ? (
+                  <Button type="submit" onClick={updateBackgroundHandler}>
+                    Update
+                  </Button>
+                ) : (
+                  <Button type="submit" onClick={createBackgroundHandler}>
+                    Save
+                  </Button>
+                )}
               </DialogActions>
             </Dialog>
             {/* DIALOG END */}
