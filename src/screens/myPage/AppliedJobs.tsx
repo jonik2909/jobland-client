@@ -17,6 +17,7 @@ import { selectMyApplications, setMyApplications } from "./state";
 import { formatEnum, getImageUrl } from "../../lib/config";
 import moment from "moment";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { errorToast, successToast } from "../../lib/Toastify";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -86,6 +87,20 @@ export default function AppliedJobs() {
       ...applicationInquiry,
       page: value,
     });
+  };
+
+  const deleteApplication = async (id: string) => {
+    try {
+      if (!confirm("Are you sure?")) return;
+
+      await applicationService.deleteApplication(id);
+      setApplicationInquiry({ ...applicationInquiry });
+
+      successToast("Successfully deleted!", 700);
+    } catch (err) {
+      console.log("Error, deleteApplication", err);
+      errorToast(err);
+    }
   };
 
   return (
@@ -215,7 +230,11 @@ export default function AppliedJobs() {
                               <div className="job-action-box">
                                 {application.applicationStatus ===
                                 ApplicationStatus.SUBMITTED ? (
-                                  <div>
+                                  <div
+                                    onClick={() =>
+                                      deleteApplication(application.id)
+                                    }
+                                  >
                                     <DeleteOutlineOutlinedIcon />
                                   </div>
                                 ) : (

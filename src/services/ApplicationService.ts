@@ -47,7 +47,7 @@ class ApplicationService {
     }
   }
 
-  public async deleteApplication(id: string): Promise<boolean> {
+  public async deleteApplication(id: string): Promise<void> {
     try {
       const response = await axios.post(
         `${this.path}/delete/${id}`,
