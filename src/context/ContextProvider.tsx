@@ -18,7 +18,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const [authMember, setAuthMember] = useState<Member | null>(
     localStorage.getItem("memberData")
-      ? JSON.parse(localStorage.getItem("memberData"))
+      ? JSON.parse(localStorage.getItem("memberData") as string)
       : null,
   );
 

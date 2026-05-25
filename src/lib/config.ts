@@ -10,7 +10,7 @@ export function formatEnum(str?: string): string {
     .join(" ");
 }
 
-export function getImageUrl(img: string): string {
+export function getImageUrl(img?: string): string {
   return img
     ? `${import.meta.env.VITE_API_URL}/${img}`
     : "/icons/default-user.svg";

@@ -58,7 +58,7 @@ const JobList = () => {
   };
 
   const paginationHandler = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number,
   ) => {
     setJobsInquiry({ ...jobsInquiry, page: value });

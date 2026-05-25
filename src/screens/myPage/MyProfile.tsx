@@ -15,7 +15,7 @@ import memberService from "../../services/MemberService";
 
 export default function MyProfile() {
   const { authMember, setAuthMember } = useGlobals();
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<any>(null);
   const [imagePreview, setImagePreview] = useState(
     getImageUrl(authMember?.memberImage),
   );

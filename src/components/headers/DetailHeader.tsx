@@ -98,7 +98,13 @@ export default function DetailHeader(props: DetailHeaderProps) {
           </Box>
           <Box className="btns">
             {!jobDetail?.meApplied ? (
-              <button onClick={() => submitApplicationHandler(jobDetail.id)}>
+              <button
+                onClick={() =>
+                  submitApplicationHandler &&
+                  jobDetail?.id &&
+                  submitApplicationHandler(jobDetail.id)
+                }
+              >
                 Apply for Job
               </button>
             ) : (

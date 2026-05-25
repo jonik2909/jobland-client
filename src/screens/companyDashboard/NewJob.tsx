@@ -83,10 +83,12 @@ export default function NewJob() {
       const isValid = validateDataHandler(jobInput);
       if (!isValid) throw new Error(AppErrors.INPUT_ERR);
 
-      await companyService.updateJob({ ...jobInput, id: jobId });
-      successToast("Job updated successfully!");
+      if (jobId) {
+        await companyService.updateJob({ ...jobInput, id: jobId });
+        successToast("Job updated successfully!");
 
-      navigate("/company/dashboard/manage-jobs");
+        navigate("/company/dashboard/manage-jobs");
+      }
     } catch (err) {
       console.log(err);
       errorToast(err).then();
